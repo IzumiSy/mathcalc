@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
         }
 
         // processing for subtraction and addition is not going
-        // to be triggerd off before expression going-throught
+        // to be triggerd off before going-through expression
         // processing has not completed once.
         _go_through = true;
 
