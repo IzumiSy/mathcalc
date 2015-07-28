@@ -62,58 +62,58 @@ int main(int argc, char *argv[])
         current++;
     }
 
-    int right = 0, left = 0, let = 0, exptype = 0;
-    string buf = "";
+    int right, left, let, exptype;
+    string buf;
+    list<string>::iterator it;
 
     put_list_in_string(exp_array);
 
-    while (1) {
-
         // process all multipulication and division at first
-        noexp = true;
-        list<string>::iterator it = exp_array.begin();
-        while (it != exp_array.end()) {
-            exptype = 0;
-            if (*it == "*") {
-                exptype = MUL;
-            } else if (*it == "/") {
-                exptype = DIV;
-            }
-            if (exptype != 0) {
-                it = exp_array.erase(it);
-                buf = *it;
-                right = atoi(buf.c_str());
-                it = exp_array.erase(it);
-                it--;
-                buf = *it;
-                left = atoi(buf.c_str());
-                if (exptype == MUL) {
-                    /* multipulication */
-                    let = right * left;
-                } else if (exptype == DIV) { 
-                    /* division */
-                    let = left / right;
-                } else {
-                    // error
-                    cout << "Error exp(1)" << endl;
-                    return 0;
-                }
-                exp_array.insert(it, itos(let));
-                it = exp_array.erase(it);
-                noexp = false;    
-            }
-            it++;
-
-            if (exptype != 0) {
-                cout << "= ";
-                put_list_in_string(exp_array);
-            }
+    noexp = true;
+    it = exp_array.begin();
+    while (it != exp_array.end()) {
+        exptype = 0;
+        if (*it == "*") {
+            exptype = MUL;
+        } else if (*it == "/") {
+            exptype = DIV;
+        } else if (*it == "+") {
+            exptype = PLS;
+        } else if (*it == "-") {
+            exptype = MNS;
         }
-
-
-
-        if (noexp) {
-            break;
+        if (exptype != 0) {
+            it = exp_array.erase(it);
+            buf = *it;
+            right = atoi(buf.c_str());
+            it = exp_array.erase(it);
+            it--;
+            buf = *it;
+            left = atoi(buf.c_str());
+            if (exptype == MUL) {
+                 /* multipulication */
+                let = right * left;
+            } else if (exptype == DIV) { 
+                /* division */
+                let = left / right;
+            } else if (exptype == PLS) {
+                /* addition */
+                let = left + right;
+            } else if (exptype == MNS) {
+                /* subtraction */
+                let = left - right;
+            } else {
+                // error
+                 cout << "Error exp(1)" << endl;
+                return 0;
+            }
+            exp_array.insert(it, itos(let));
+            it = exp_array.erase(it);
+        }
+        it++;
+        if (exptype != 0) {
+            cout << "= ";
+            put_list_in_string(exp_array);
         }
     }
 
