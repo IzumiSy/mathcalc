@@ -17,6 +17,16 @@ string itos(int n)
     return s.str();
 }
 
+void put_list_in_string(list<string> n) 
+{
+    list<string>::iterator begin = n.begin();
+    list<string>::iterator end = n.end();
+    for (;begin != end;begin++) {
+        cout << *begin << " "; 
+    }
+    cout << endl;
+}
+
 int main(int argc, char *argv[]) 
 {
     // string exp(argv[1]);
@@ -54,13 +64,12 @@ int main(int argc, char *argv[])
 
     int right = 0, left = 0, let = 0, exptype = 0;
     string buf = "";
-    while (1) {
-        list<string>::iterator begin = exp_array.begin();
-        list<string>::iterator end = exp_array.end();
-        for (;begin != end;begin++) { cout << *begin << " "; }
-        cout << endl;
 
-        // process all multipulication and division at at first
+    put_list_in_string(exp_array);
+
+    while (1) {
+
+        // process all multipulication and division at first
         noexp = true;
         list<string>::iterator it = exp_array.begin();
         while (it != exp_array.end()) {
@@ -93,8 +102,15 @@ int main(int argc, char *argv[])
                 it = exp_array.erase(it);
                 noexp = false;    
             }
-            it++; 
+            it++;
+
+            if (exptype != 0) {
+                cout << "= ";
+                put_list_in_string(exp_array);
+            }
         }
+
+
 
         if (noexp) {
             break;
