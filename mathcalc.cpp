@@ -1,12 +1,26 @@
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 #include <string>
 #include <list>
 using namespace std;
 
-int main(int argc, char *argv[]) {
+#define DIV 1
+#define MUL 2
+#define PLS 3
+#define MNS 4
+
+string itos(int n) 
+{
+    stringstream s;
+    s << n;
+    return s.str();
+}
+
+int main(int argc, char *argv[]) 
+{
     // string exp(argv[1]);
-    string exp("122+412-2*5");
+    string exp("4/2+122+412+5*7-2*5");
     list<string> exp_array;
     string::size_type current, prev,
         pos_plus, pos_minus, pos_multi, pos_div;
@@ -38,12 +52,54 @@ int main(int argc, char *argv[]) {
         current++;
     }
 
-    // puts all contents
-    cout << "Parsed: ";
-    list<string>::iterator begin = exp_array.begin(),
-                           end = exp_array.end();
-    for (;begin != end;begin++) { cout << *begin << " "; }
-    cout << endl;
+    int right = 0, left = 0, let = 0, exptype = 0;
+    string buf = "";
+    while (1) {
+        list<string>::iterator begin = exp_array.begin();
+        list<string>::iterator end = exp_array.end();
+        for (;begin != end;begin++) { cout << *begin << " "; }
+        cout << endl;
+
+        // process all multipulication and division at at first
+        noexp = true;
+        list<string>::iterator it = exp_array.begin();
+        while (it != exp_array.end()) {
+            exptype = 0;
+            if (*it == "*") {
+                exptype = MUL;
+            } else if (*it == "/") {
+                exptype = DIV;
+            }
+            if (exptype != 0) {
+                it = exp_array.erase(it);
+                buf = *it;
+                right = atoi(buf.c_str());
+                it = exp_array.erase(it);
+                it--;
+                buf = *it;
+                left = atoi(buf.c_str());
+                if (exptype == MUL) {
+                    /* multipulication */
+                    let = right * left;
+                } else if (exptype == DIV) { 
+                    /* division */
+                    let = left / right;
+                } else {
+                    // error
+                    cout << "Error exp(1)" << endl;
+                    return 0;
+                }
+                exp_array.insert(it, itos(let));
+                it = exp_array.erase(it);
+                noexp = false;    
+            }
+            it++; 
+        }
+
+        if (noexp) {
+            break;
+        }
+    }
 
     return 0;
 }
