@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <list>
+#include <locale>
 using namespace std;
 
 #define DIV 1
@@ -10,11 +11,18 @@ using namespace std;
 #define PLS 3
 #define MNS 4
 
-string itos(int n) 
+string _itos(int n) 
 {
     stringstream s;
     s << n;
     return s.str();
+}
+
+int _stoi(string s) {
+    if (s.empty()) {
+        return -1;
+    }
+    return atoi(s.c_str());
 }
 
 void put_list_in_string(list<string> n) 
@@ -29,12 +37,17 @@ void put_list_in_string(list<string> n)
 
 int main(int argc, char *argv[]) 
 {
-    // string exp(argv[1]);
-    string exp("4/2+122+412+5*7-2*5");
+    string exp;
     list<string> exp_array;
     string::size_type current, prev,
         pos_plus, pos_minus, pos_multi, pos_div;
     bool noexp;
+
+    if (argc == 1) {
+        cout << "usage: mathcalc [expression]" << endl;
+        return 0;
+    }
+    exp = argv[1];
 
     current = 0;
     noexp = false;
@@ -68,52 +81,79 @@ int main(int argc, char *argv[])
 
     put_list_in_string(exp_array);
 
-        // process all multipulication and division at first
-    noexp = true;
-    it = exp_array.begin();
-    while (it != exp_array.end()) {
-        exptype = 0;
-        if (*it == "*") {
-            exptype = MUL;
-        } else if (*it == "/") {
-            exptype = DIV;
-        } else if (*it == "+") {
-            exptype = PLS;
-        } else if (*it == "-") {
-            exptype = MNS;
-        }
-        if (exptype != 0) {
-            it = exp_array.erase(it);
-            buf = *it;
-            right = atoi(buf.c_str());
-            it = exp_array.erase(it);
-            it--;
-            buf = *it;
-            left = atoi(buf.c_str());
-            if (exptype == MUL) {
-                 /* multipulication */
-                let = right * left;
-            } else if (exptype == DIV) { 
-                /* division */
-                let = left / right;
-            } else if (exptype == PLS) {
-                /* addition */
-                let = left + right;
-            } else if (exptype == MNS) {
-                /* subtraction */
-                let = left - right;
-            } else {
-                // error
-                 cout << "Error exp(1)" << endl;
-                return 0;
+    // process all multipulication and division at first
+    // and after all of them are processed, it starts processing
+    // the rest expressions such as addition and subtraction
+    bool _exists_mul_and_div, _exists_pls_and_mns;
+    bool _go_through = false;
+    while (1) {
+        _exists_mul_and_div = false;
+        _exists_pls_and_mns = false;
+
+        it = exp_array.begin();
+        while (it != exp_array.end()) {
+            exptype = 0;
+            if (*it == "*") {
+                exptype = MUL;
+                _exists_mul_and_div = true;
+            } else if (*it == "/") {
+                exptype = DIV;
+                _exists_mul_and_div = true;
             }
-            exp_array.insert(it, itos(let));
-            it = exp_array.erase(it);
+            if (!_exists_mul_and_div && _go_through) {
+                if (*it == "+") {
+                    exptype = PLS;
+                    _exists_pls_and_mns = true;
+                } else if (*it == "-") {
+                    exptype = MNS;
+                    _exists_pls_and_mns = true;
+                }
+            }
+            if (exptype != 0) {
+                it = exp_array.erase(it);
+                buf = *it;
+                right = _stoi(buf);
+                it = exp_array.erase(it);
+                it--;
+                buf = *it;
+                left = _stoi(buf);
+                if (right == -1 || left == -1) {
+                    cout << "Error: unusual expression" << endl;
+                    return 0;
+                }
+                if (exptype == MUL) {
+                    /* multipulication */
+                    let = right * left;
+                } else if (exptype == DIV) { 
+                    /* division */
+                    let = left / right;
+                } else if (exptype == PLS) {
+                    /* addition */
+                    let = left + right;
+                } else if (exptype == MNS) {
+                    /* subtraction */
+                    let = left - right;
+                } else {
+                    // error
+                    cout << "Error exp(1)" << endl;
+                    return 0;
+                }
+                exp_array.insert(it, _itos(let));
+                it = exp_array.erase(it);
+                
+                cout << "= ";
+                put_list_in_string(exp_array);
+            }
+            it++;
         }
-        it++;
-        if (exptype != 0) {
-            cout << "= ";
-            put_list_in_string(exp_array);
+
+        // processing for subtraction and addition is not going
+        // to be triggerd off before expression going-throught
+        // processing has not completed once.
+        _go_through = true;
+
+        if (!_exists_mul_and_div && !_exists_pls_and_mns) {
+            break;
         }
     }
 
