@@ -97,8 +97,9 @@ int main(int argc, char *argv[])
     int right, left, let, exptype;
     string buf;
     list<string>::iterator it;
-    list<string>::iterator bracket_it;
+    list<string>::iterator bracket_it, _is_exists_brackets;
     list<string>::iterator bracket_start, bracket_end;
+
 
     put_list_in_string(exp_array);
 
@@ -119,29 +120,34 @@ int main(int argc, char *argv[])
             exptype = 0;
             bracket_value = 0;
 
-            // Process brackets
-            if (*it == "(") {
-                if (in_bracket) {
-                    cout << "Error: bracket duplication" << endl;
-                    return 0;
+            // Process all brackets at first
+            if (find(exp_array.begin(), exp_array.end(), "(") != exp_array.end() ||
+                find(exp_array.begin(), exp_array.end(), ")") != exp_array.end()) {
+                if (*it == "(") {
+                    if (in_bracket) {
+                        cout << "Error: bracket duplication" << endl;
+                        return 0;
+                    }
+                    in_bracket = true;
+                    it--;
+                    bracket_start = it;
+                    it++;
+                } else if (*it == ")") {
+                    if (!in_bracket) {
+                        cout << "Error: invalid bracket" << endl;
+                        return 0;
+                    }
+                    in_bracket = false;
+                    it++; it++;
+                    bracket_end = it;
+                    bracket_it = bracket_start;
+                    bracket_value = calcurate(bracket_start, bracket_end);
+                    exp_array.erase(bracket_start, bracket_end);
+                    exp_array.insert(it, _itos(bracket_value));
                 }
-                in_bracket = true;
-                it--;
-                bracket_start = it;
                 it++;
-            } else if (*it == ")") {
-                if (!in_bracket) {
-                    cout << "Error: invalid bracket" << endl;
-                    return 0;
-                }
-                in_bracket = false;
-                it++; it++;
-                bracket_end = it;
-                bracket_it = bracket_start;
-                bracket_value = calcurate(bracket_start, bracket_end);
-                exp_array.erase(bracket_start, bracket_end);
-                exp_array.insert(it, _itos(bracket_value));
-            }
+                continue;
+            }                      
 
             // Process expressions
             if (*it == "*") {
