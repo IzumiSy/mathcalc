@@ -147,14 +147,14 @@ int main(int argc, char *argv[])
             it++;
         }
 
+        if (_go_through && !_exists_mul_and_div && !_exists_pls_and_mns) {
+            break;
+        }
+
         // processing for subtraction and addition is not going
         // to be triggerd off before going-through expression
         // processing has not completed once.
         _go_through = true;
-
-        if (!_exists_mul_and_div && !_exists_pls_and_mns) {
-            break;
-        }
     }
 
     return 0;
