@@ -1,6 +1,6 @@
 
 mathcalc: mathcalc.cpp
-	g++ -Wall -o mathcalc mathcalc.cpp
+	g++ -g -Wall -o mathcalc mathcalc.cpp
 
 .PHONY: clean run
 clean:
