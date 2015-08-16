@@ -32,7 +32,6 @@ void put_list_in_string(list<string> n)
     for (;begin != end;begin++) {
         cout << *begin << " "; 
     }
-    cout << endl;
 }
 
 int calcurate(list<string>::iterator begin, list<string>::iterator end)
@@ -60,7 +59,9 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
     bool _exists_pls_and_mns;
     bool _go_through = false;
 
+    cout << "( ";
     put_list_in_string(exp_copy);
+    cout << ")" << endl;
 
     while (1) {
         _exists_mul_and_div = false;
@@ -118,8 +119,10 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
                 }
                 exp_copy.insert(it, _itos(let));
                 it = exp_copy.erase(it);
-                
+               
+                cout << "= ( ";
                 put_list_in_string(exp_copy);
+                cout << ")" << endl;
             }
             it++;
         }
@@ -190,6 +193,7 @@ int main(int argc, char *argv[])
     list<string>::iterator bracket_pass_st, bracket_pass_ed;
 
     put_list_in_string(exp_array);
+    cout << endl;
 
     // process all multipulication and division at first
     // and after all of them are processed, it starts processing
@@ -282,6 +286,7 @@ int main(int argc, char *argv[])
                 
                 cout << "= ";
                 put_list_in_string(exp_array);
+                cout << endl;
             }
      
             it++;
