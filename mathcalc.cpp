@@ -37,16 +37,104 @@ void put_list_in_string(list<string> n)
 
 int calcurate(list<string>::iterator begin, list<string>::iterator end)
 {
+    list<string> exp_copy;
     list<string>::iterator exp_begin, exp_end;
-    int r; 
+    list<string>::iterator it;
 
-    begin++;
     exp_begin = begin;
     end--;
+    if (*end != ")") {
+        end++;
+    }
     exp_end = end;
-    
-    return 10;
-    // return r;
+
+    it = exp_begin;
+    for (;it != exp_end;it++)  {
+        exp_copy.push_back(*it);
+    }
+
+    string buf;
+    int right, left, let;
+    int exptype;
+    bool _exists_mul_and_div;
+    bool _exists_pls_and_mns;
+    bool _go_through = false;
+
+    put_list_in_string(exp_copy);
+
+    while (1) {
+        _exists_mul_and_div = false;
+        _exists_pls_and_mns = false;
+
+        it = exp_copy.begin();
+        while (it != exp_copy.end()) {
+            exptype = 0;
+
+            // Process expressions
+            if (*it == "*") {
+                exptype = MUL;
+                _exists_mul_and_div = true;
+            } else if (*it == "/") {
+                exptype = DIV;
+                _exists_mul_and_div = true;
+            }
+            if (!_exists_mul_and_div && _go_through) {
+                if (*it == "+") {
+                    exptype = PLS;
+                    _exists_pls_and_mns = true;
+                } else if (*it == "-") {
+                    exptype = MNS;
+                    _exists_pls_and_mns = true;
+                }
+            }
+            if (exptype != 0) {
+                it = exp_copy.erase(it);
+                buf = *it;
+                right = _stoi(buf);
+                it = exp_copy.erase(it);
+                it--;
+                buf = *it;
+                left = _stoi(buf);
+                if (right == -1 || left == -1) {
+                    cout << "Error: unusual expression" << endl;
+                    return 0;
+                }
+                if (exptype == MUL) {
+                    /* multipulication */
+                    let = right * left;
+                } else if (exptype == DIV) { 
+                    /* division */
+                    let = left / right;
+                } else if (exptype == PLS) {
+                    /* addition */
+                    let = left + right;
+                } else if (exptype == MNS) {
+                    /* subtraction */
+                    let = left - right;
+                } else {
+                    // error
+                    cout << "Error exp(1)" << endl;
+                    return 0;
+                }
+                exp_copy.insert(it, _itos(let));
+                it = exp_copy.erase(it);
+                
+                put_list_in_string(exp_copy);
+            }
+            it++;
+        }
+
+        if (_go_through && !_exists_mul_and_div && !_exists_pls_and_mns) {
+            break;
+        }
+
+        // processing for subtraction and addition is not going
+        // to be triggerd off before going-through expression
+        // processing has not completed once.
+        _go_through = true;
+    }
+
+    return _stoi(*exp_copy.begin());
 }
 
 int main(int argc, char *argv[]) 
@@ -97,9 +185,9 @@ int main(int argc, char *argv[])
     int right, left, let, exptype;
     string buf;
     list<string>::iterator it;
-    list<string>::iterator bracket_it, _is_exists_brackets;
+    list<string>::iterator _is_exists_brackets;
     list<string>::iterator bracket_start, bracket_end;
-
+    list<string>::iterator bracket_pass_st, bracket_pass_ed;
 
     put_list_in_string(exp_array);
 
@@ -129,19 +217,17 @@ int main(int argc, char *argv[])
                         return 0;
                     }
                     in_bracket = true;
-                    it--;
-                    bracket_start = it;
-                    it++;
+                    it--; bracket_start = it; it++;
+                    it++; bracket_pass_st = it; it--;
                 } else if (*it == ")") {
                     if (!in_bracket) {
                         cout << "Error: invalid bracket" << endl;
                         return 0;
                     }
                     in_bracket = false;
-                    it++; it++;
-                    bracket_end = it;
-                    bracket_it = bracket_start;
-                    bracket_value = calcurate(bracket_start, bracket_end);
+                    it++; it++; bracket_end = it; it--;
+                    bracket_pass_ed = it; it++;
+                    bracket_value = calcurate(bracket_pass_st, bracket_pass_ed);
                     exp_array.erase(bracket_start, bracket_end);
                     exp_array.insert(it, _itos(bracket_value));
                 }
@@ -179,16 +265,12 @@ int main(int argc, char *argv[])
                     return 0;
                 }
                 if (exptype == MUL) {
-                    /* multipulication */
                     let = right * left;
                 } else if (exptype == DIV) { 
-                    /* division */
                     let = left / right;
                 } else if (exptype == PLS) {
-                    /* addition */
                     let = left + right;
                 } else if (exptype == MNS) {
-                    /* subtraction */
                     let = left - right;
                 } else {
                     // error
@@ -201,6 +283,7 @@ int main(int argc, char *argv[])
                 cout << "= ";
                 put_list_in_string(exp_array);
             }
+     
             it++;
         }
 
