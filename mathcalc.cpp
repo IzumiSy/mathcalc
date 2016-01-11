@@ -65,8 +65,48 @@ int expression_processor(
     return exptype;
 }
 
+struct EXP_DIVIDER_RESULT {
+    int left_value;
+    int right_value;
+};
+
+void exp_divider(
+    list<string> *exp_array,
+    list<string>::iterator *it,
+    struct EXP_DIVIDER_RESULT *exp_result )
+{
+    string buf;
+
+    *it = exp_array->erase(*it);
+    buf = *(*it);
+    exp_result->right_value = _stoi(buf);
+
+    *it = exp_array->erase(*it);
+    *(*it)--;
+    buf = *(*it);
+    exp_result->left_value = _stoi(buf);
+}
+
+int sub_calculate(int exptype, struct EXP_DIVIDER_RESULT divider_result)
+{
+    int let = 0;
+    int right = divider_result.right_value;
+    int left = divider_result.left_value;
+
+    switch (exptype) {
+        case MUL: let = right * left; break;
+        case DIV: let = left / right; break;
+        case PLS: let = left + right; break;
+        case MNS: let = left - right; break;
+        default:  let = (int)NULL;    break;
+    }
+
+    return let;
+}
+
 int calcurate(list<string>::iterator begin, list<string>::iterator end)
 {
+    struct EXP_DIVIDER_RESULT edr;
     list<string> exp_copy;
     list<string>::iterator exp_begin, exp_end;
     list<string>::iterator it;
@@ -105,34 +145,20 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
                 &_exists_pls_and_mns, _go_through
             );
             if (exptype != NO_EXP) {
-                it = exp_copy.erase(it);
-                buf = *it;
-                right = _stoi(buf);
-                it = exp_copy.erase(it);
-                it--;
-                buf = *it;
-                left = _stoi(buf);
+                exp_divider(&exp_copy, &it, &edr);
+                right = edr.right_value;
+                left = edr.left_value;
                 if (right == -1 || left == -1) {
                     cout << "Error: unusual expression" << endl;
                     return 0;
                 }
-                if (exptype == MUL) {
-                    /* multipulication */
-                    let = right * left;
-                } else if (exptype == DIV) {
-                    /* division */
-                    let = left / right;
-                } else if (exptype == PLS) {
-                    /* addition */
-                    let = left + right;
-                } else if (exptype == MNS) {
-                    /* subtraction */
-                    let = left - right;
-                } else {
-                    // error
+
+                let = sub_calculate(exptype, edr);
+                if (let == (int)NULL) {
                     cout << "Error exp(1)" << endl;
                     return 0;
                 }
+
                 exp_copy.insert(it, _itos(let));
                 it = exp_copy.erase(it);
 
@@ -202,6 +228,7 @@ int main(int argc, char *argv[])
     }
 
     int right, left, let, exptype;
+    struct EXP_DIVIDER_RESULT edr;
     string buf;
     list<string>::iterator it;
     list<string>::iterator _is_exists_brackets;
@@ -219,6 +246,7 @@ int main(int argc, char *argv[])
     bool _go_through = false;
     bool in_bracket = false;
     int bracket_value;
+
     while (1) {
         _exists_mul_and_div = false;
         _exists_pls_and_mns = false;
@@ -260,30 +288,20 @@ int main(int argc, char *argv[])
             );
 
             if (exptype != NO_EXP) {
-                it = exp_array.erase(it);
-                buf = *it;
-                right = _stoi(buf);
-                it = exp_array.erase(it);
-                it--;
-                buf = *it;
-                left = _stoi(buf);
+                exp_divider(&exp_array, &it, &edr);
+                right = edr.right_value;
+                left = edr.left_value;
                 if (right == -1 || left == -1) {
                     cout << "Error: unusual expression" << endl;
                     return 0;
                 }
-                if (exptype == MUL) {
-                    let = right * left;
-                } else if (exptype == DIV) {
-                    let = left / right;
-                } else if (exptype == PLS) {
-                    let = left + right;
-                } else if (exptype == MNS) {
-                    let = left - right;
-                } else {
-                    // error
+
+                let = sub_calculate(exptype, edr);
+                if (let == (int)NULL) {
                     cout << "Error exp(1)" << endl;
                     return 0;
                 }
+
                 exp_array.insert(it, _itos(let));
                 it = exp_array.erase(it);
 
