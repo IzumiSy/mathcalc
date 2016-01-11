@@ -36,6 +36,14 @@ void put_list_in_string(list<string> n)
     }
 }
 
+struct PROGRESSION_FLAGS {
+    list<string> expressions;
+    list<string>::iterator it;
+    bool exists_mul_and_div;
+    bool exists_pls_and_mns;
+    bool go_through;
+};
+
 // Process expressions
 int expression_processor(
     string it,
@@ -87,7 +95,7 @@ void exp_divider(
     exp_result->left_value = _stoi(buf);
 }
 
-int sub_calculate(int exptype, struct EXP_DIVIDER_RESULT divider_result)
+int exec_calcurate(int exptype, struct EXP_DIVIDER_RESULT divider_result)
 {
     int let = 0;
     int right = divider_result.right_value;
@@ -104,12 +112,46 @@ int sub_calculate(int exptype, struct EXP_DIVIDER_RESULT divider_result)
     return let;
 }
 
-int calcurate(list<string>::iterator begin, list<string>::iterator end)
+int sub_calcurate(struct PROGRESSION_FLAGS *pflags)
 {
     struct EXP_DIVIDER_RESULT edr;
-    list<string> exp_copy;
+    int right, left, let;
+    int exptype;
+
+    exptype = expression_processor(
+        *pflags->it, &pflags->exists_mul_and_div,
+        &pflags->exists_pls_and_mns, pflags->go_through
+    );
+
+    if (exptype != NO_EXP) {
+        exp_divider(&pflags->expressions, &pflags->it, &edr);
+        right = edr.right_value;
+        left = edr.left_value;
+
+        if (right == -1 || left == -1) {
+            return -1;
+        }
+
+        let = exec_calcurate(exptype, edr);
+
+        if (let == (int)NULL) {
+            return -2;
+        }
+
+        pflags->expressions.insert(pflags->it, _itos(let));
+        pflags->it = pflags->expressions.erase(pflags->it);
+
+        return 1;
+    }
+
+    return 0;
+}
+
+int calcurate(list<string>::iterator begin, list<string>::iterator end)
+{
+    struct PROGRESSION_FLAGS pflags;
     list<string>::iterator exp_begin, exp_end;
-    list<string>::iterator it;
+    int result;
 
     exp_begin = begin;
     end--;
@@ -118,68 +160,49 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
     }
     exp_end = end;
 
-    it = exp_begin;
-    for (;it != exp_end;it++)  {
-        exp_copy.push_back(*it);
+    pflags.it = exp_begin;
+    for (;pflags.it != exp_end;pflags.it++)  {
+        pflags.expressions.push_back(*pflags.it);
     }
 
-    string buf;
-    int right, left, let;
-    int exptype;
-    bool _exists_mul_and_div;
-    bool _exists_pls_and_mns;
-    bool _go_through = false;
+    pflags.go_through = false;
 
     cout << "( ";
-    put_list_in_string(exp_copy);
+    put_list_in_string(pflags.expressions);
     cout << ")" << endl;
 
     while (1) {
-        _exists_mul_and_div = false;
-        _exists_pls_and_mns = false;
+        pflags.exists_mul_and_div = false;
+        pflags.exists_pls_and_mns = false;
 
-        it = exp_copy.begin();
-        while (it != exp_copy.end()) {
-            exptype = expression_processor(
-                *it, &_exists_mul_and_div,
-                &_exists_pls_and_mns, _go_through
-            );
-            if (exptype != NO_EXP) {
-                exp_divider(&exp_copy, &it, &edr);
-                right = edr.right_value;
-                left = edr.left_value;
-                if (right == -1 || left == -1) {
-                    cout << "Error: unusual expression" << endl;
-                    return 0;
-                }
+        pflags.it = pflags.expressions.begin();
+        while (pflags.it != pflags.expressions.end()) {
+            result = sub_calcurate(&pflags);
 
-                let = sub_calculate(exptype, edr);
-                if (let == (int)NULL) {
-                    cout << "Error exp(1)" << endl;
-                    return 0;
-                }
-
-                exp_copy.insert(it, _itos(let));
-                it = exp_copy.erase(it);
-
+            if (result == 1) {
                 cout << "= ( ";
-                put_list_in_string(exp_copy);
+                put_list_in_string(pflags.expressions);
                 cout << ")" << endl;
+            } else {
+                cout << "Error(" << result << ")" << endl;
             }
-            it++;
+
+            pflags.it++;
         }
 
-        if (_go_through && !_exists_mul_and_div && !_exists_pls_and_mns) {
+        if (pflags.go_through &&
+            !pflags.exists_mul_and_div &&
+            !pflags.exists_pls_and_mns) {
             break;
         }
 
         // processing for subtraction and addition is not going
         // to be triggerd off before going-through expression
         // processing has not completed once.
-        _go_through = true;
+        pflags.go_through = true;
     }
 
-    return _stoi(*exp_copy.begin());
+    return _stoi(*pflags.expressions.begin());
 }
 
 int main(int argc, char *argv[])
@@ -229,7 +252,6 @@ int main(int argc, char *argv[])
 
     int right, left, let, exptype;
     struct EXP_DIVIDER_RESULT edr;
-    string buf;
     list<string>::iterator it;
     list<string>::iterator _is_exists_brackets;
     list<string>::iterator bracket_start, bracket_end;
@@ -296,7 +318,7 @@ int main(int argc, char *argv[])
                     return 0;
                 }
 
-                let = sub_calculate(exptype, edr);
+                let = exec_calcurate(exptype, edr);
                 if (let == (int)NULL) {
                     cout << "Error exp(1)" << endl;
                     return 0;
