@@ -11,6 +11,8 @@ using namespace std;
 #define PLS 3
 #define MNS 4
 
+#define NO_EXP 0
+
 string _itos(int n)
 {
     stringstream s;
@@ -32,6 +34,35 @@ void put_list_in_string(list<string> n)
     for (;begin != end;begin++) {
         cout << *begin << " ";
     }
+}
+
+// Process expressions
+int expression_processor(
+    string it,
+    bool *exists_mul_and_div,
+    bool *exists_pls_and_mns,
+    bool go_through )
+{
+    int exptype = NO_EXP;
+
+    if (it == "*") {
+        exptype = MUL;
+        *exists_mul_and_div = true;
+    } else if (it == "/") {
+        exptype = DIV;
+        *exists_mul_and_div = true;
+    }
+    if (!*exists_mul_and_div && go_through) {
+        if (it == "+") {
+            exptype = PLS;
+            *exists_pls_and_mns = true;
+        } else if (it == "-") {
+            exptype = MNS;
+            *exists_pls_and_mns = true;
+        }
+    }
+
+    return exptype;
 }
 
 int calcurate(list<string>::iterator begin, list<string>::iterator end)
@@ -69,26 +100,11 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
 
         it = exp_copy.begin();
         while (it != exp_copy.end()) {
-            exptype = 0;
-
-            // Process expressions
-            if (*it == "*") {
-                exptype = MUL;
-                _exists_mul_and_div = true;
-            } else if (*it == "/") {
-                exptype = DIV;
-                _exists_mul_and_div = true;
-            }
-            if (!_exists_mul_and_div && _go_through) {
-                if (*it == "+") {
-                    exptype = PLS;
-                    _exists_pls_and_mns = true;
-                } else if (*it == "-") {
-                    exptype = MNS;
-                    _exists_pls_and_mns = true;
-                }
-            }
-            if (exptype != 0) {
+            exptype = expression_processor(
+                *it, &_exists_mul_and_div,
+                &_exists_pls_and_mns, _go_through
+            );
+            if (exptype != NO_EXP) {
                 it = exp_copy.erase(it);
                 buf = *it;
                 right = _stoi(buf);
@@ -209,7 +225,6 @@ int main(int argc, char *argv[])
 
         it = exp_array.begin();
         while (it != exp_array.end()) {
-            exptype = 0;
             bracket_value = 0;
 
             // Process all brackets at first
@@ -239,24 +254,12 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            // Process expressions
-            if (*it == "*") {
-                exptype = MUL;
-                _exists_mul_and_div = true;
-            } else if (*it == "/") {
-                exptype = DIV;
-                _exists_mul_and_div = true;
-            }
-            if (!_exists_mul_and_div && _go_through) {
-                if (*it == "+") {
-                    exptype = PLS;
-                    _exists_pls_and_mns = true;
-                } else if (*it == "-") {
-                    exptype = MNS;
-                    _exists_pls_and_mns = true;
-                }
-            }
-            if (exptype != 0) {
+            exptype = expression_processor(
+                *it, &_exists_mul_and_div,
+                &_exists_pls_and_mns, _go_through
+            );
+
+            if (exptype != NO_EXP) {
                 it = exp_array.erase(it);
                 buf = *it;
                 right = _stoi(buf);
