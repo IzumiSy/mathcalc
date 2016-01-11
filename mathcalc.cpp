@@ -11,7 +11,7 @@ using namespace std;
 #define PLS 3
 #define MNS 4
 
-string _itos(int n) 
+string _itos(int n)
 {
     stringstream s;
     s << n;
@@ -25,12 +25,12 @@ int _stoi(string s) {
     return atoi(s.c_str());
 }
 
-void put_list_in_string(list<string> n) 
+void put_list_in_string(list<string> n)
 {
     list<string>::iterator begin = n.begin();
     list<string>::iterator end = n.end();
     for (;begin != end;begin++) {
-        cout << *begin << " "; 
+        cout << *begin << " ";
     }
 }
 
@@ -103,7 +103,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
                 if (exptype == MUL) {
                     /* multipulication */
                     let = right * left;
-                } else if (exptype == DIV) { 
+                } else if (exptype == DIV) {
                     /* division */
                     let = left / right;
                 } else if (exptype == PLS) {
@@ -119,7 +119,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
                 }
                 exp_copy.insert(it, _itos(let));
                 it = exp_copy.erase(it);
-               
+
                 cout << "= ( ";
                 put_list_in_string(exp_copy);
                 cout << ")" << endl;
@@ -140,7 +140,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
     return _stoi(*exp_copy.begin());
 }
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
     string exp;
     list<string> exp_array;
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 
         // number
         prev = current;
-        current = min(pos_plus, min(pos_minus, min(pos_multi, 
+        current = min(pos_plus, min(pos_minus, min(pos_multi,
                   min(pos_div, min(pos_bracket_begin, pos_bracket_end)))));
         exp_array.push_back(exp.substr(prev, current - prev));
 
@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
                 }
                 it++;
                 continue;
-            }                      
+            }
 
             // Process expressions
             if (*it == "*") {
@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
                 }
                 if (exptype == MUL) {
                     let = right * left;
-                } else if (exptype == DIV) { 
+                } else if (exptype == DIV) {
                     let = left / right;
                 } else if (exptype == PLS) {
                     let = left + right;
@@ -283,12 +283,12 @@ int main(int argc, char *argv[])
                 }
                 exp_array.insert(it, _itos(let));
                 it = exp_array.erase(it);
-                
+
                 cout << "= ";
                 put_list_in_string(exp_array);
                 cout << endl;
             }
-     
+
             it++;
         }
 
