@@ -36,14 +36,6 @@ void put_list_in_string(list<string> n)
     }
 }
 
-struct PROGRESSION_FLAGS {
-    list<string> expressions;
-    list<string>::iterator it;
-    bool exists_mul_and_div;
-    bool exists_pls_and_mns;
-    bool go_through;
-};
-
 // Process expressions
 int expression_processor(
     string it,
@@ -111,6 +103,14 @@ int exec_calcurate(int exptype, struct EXP_DIVIDER_RESULT divider_result)
 
     return let;
 }
+
+struct PROGRESSION_FLAGS {
+    list<string> expressions;
+    list<string>::iterator it;
+    bool exists_mul_and_div;
+    bool exists_pls_and_mns;
+    bool go_through;
+};
 
 int sub_calcurate(struct PROGRESSION_FLAGS *pflags)
 {
@@ -183,7 +183,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
                 cout << "= ( ";
                 put_list_in_string(pflags.expressions);
                 cout << ")" << endl;
-            } else {
+            } else if (result < 0) {
                 cout << "Error(" << result << ")" << endl;
             }
 
@@ -207,8 +207,9 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
 
 int main(int argc, char *argv[])
 {
+    struct PROGRESSION_FLAGS pflags;
+
     string exp;
-    list<string> exp_array;
     string::size_type current, prev,
         pos_plus, pos_minus, pos_multi, pos_div,
         pos_bracket_begin, pos_bracket_end;
@@ -242,107 +243,90 @@ int main(int argc, char *argv[])
         prev = current;
         current = min(pos_plus, min(pos_minus, min(pos_multi,
                   min(pos_div, min(pos_bracket_begin, pos_bracket_end)))));
-        exp_array.push_back(exp.substr(prev, current - prev));
+        pflags.expressions.push_back(exp.substr(prev, current - prev));
 
         // expression
         if (noexp) break;
-        exp_array.push_back(exp.substr(current, 1));
+        pflags.expressions.push_back(exp.substr(current, 1));
         current++;
     }
 
-    int right, left, let, exptype;
-    struct EXP_DIVIDER_RESULT edr;
-    list<string>::iterator it;
     list<string>::iterator _is_exists_brackets;
     list<string>::iterator bracket_start, bracket_end;
     list<string>::iterator bracket_pass_st, bracket_pass_ed;
+    list<string>::iterator exp_begin, exp_end;
 
-    put_list_in_string(exp_array);
+    put_list_in_string(pflags.expressions);
     cout << endl;
 
     // process all multipulication and division at first
     // and after all of them are processed, it starts processing
     // the rest expressions such as addition and subtraction
-    bool _exists_mul_and_div;
-    bool _exists_pls_and_mns;
-    bool _go_through = false;
+    pflags.go_through = false;
+
     bool in_bracket = false;
-    int bracket_value;
+    int bracket_value, result;
 
     while (1) {
-        _exists_mul_and_div = false;
-        _exists_pls_and_mns = false;
+        pflags.exists_mul_and_div = false;
+        pflags.exists_pls_and_mns = false;
 
-        it = exp_array.begin();
-        while (it != exp_array.end()) {
+        pflags.it = pflags.expressions.begin();
+        while (pflags.it != pflags.expressions.end()) {
             bracket_value = 0;
 
             // Process all brackets at first
-            if (find(exp_array.begin(), exp_array.end(), "(") != exp_array.end() ||
-                find(exp_array.begin(), exp_array.end(), ")") != exp_array.end()) {
-                if (*it == "(") {
+            exp_begin = pflags.expressions.begin();
+            exp_end = pflags.expressions.end();
+            if (find(exp_begin, exp_end, "(") != exp_end ||
+                find(exp_begin, exp_end, ")") != exp_end) {
+                if (*pflags.it == "(") {
                     if (in_bracket) {
                         cout << "Error: bracket duplication" << endl;
                         return 0;
                     }
                     in_bracket = true;
-                    it--; bracket_start = it; it++;
-                    it++; bracket_pass_st = it; it--;
-                } else if (*it == ")") {
+                    pflags.it--; bracket_start = pflags.it; pflags.it++;
+                    pflags.it++; bracket_pass_st = pflags.it; pflags.it--;
+                } else if (*pflags.it == ")") {
                     if (!in_bracket) {
                         cout << "Error: invalid bracket" << endl;
                         return 0;
                     }
                     in_bracket = false;
-                    it++; it++; bracket_end = it; it--;
-                    bracket_pass_ed = it; it++;
+                    pflags.it++; pflags.it++; bracket_end = pflags.it; pflags.it--;
+                    bracket_pass_ed = pflags.it; pflags.it++;
                     bracket_value = calcurate(bracket_pass_st, bracket_pass_ed);
-                    exp_array.erase(bracket_start, bracket_end);
-                    exp_array.insert(it, _itos(bracket_value));
+                    pflags.expressions.erase(bracket_start, bracket_end);
+                    pflags.expressions.insert(pflags.it, _itos(bracket_value));
                 }
-                it++;
+                pflags.it++;
                 continue;
             }
 
-            exptype = expression_processor(
-                *it, &_exists_mul_and_div,
-                &_exists_pls_and_mns, _go_through
-            );
+            result = sub_calcurate(&pflags);
 
-            if (exptype != NO_EXP) {
-                exp_divider(&exp_array, &it, &edr);
-                right = edr.right_value;
-                left = edr.left_value;
-                if (right == -1 || left == -1) {
-                    cout << "Error: unusual expression" << endl;
-                    return 0;
-                }
-
-                let = exec_calcurate(exptype, edr);
-                if (let == (int)NULL) {
-                    cout << "Error exp(1)" << endl;
-                    return 0;
-                }
-
-                exp_array.insert(it, _itos(let));
-                it = exp_array.erase(it);
-
+            if (result == 1) {
                 cout << "= ";
-                put_list_in_string(exp_array);
+                put_list_in_string(pflags.expressions);
                 cout << endl;
+            } else if (result < 0) {
+                cout << "Error(" << result << ")" << endl;
             }
 
-            it++;
+            pflags.it++;
         }
 
-        if (_go_through && !_exists_mul_and_div && !_exists_pls_and_mns) {
+        if (pflags.go_through &&
+            !pflags.exists_mul_and_div &&
+            !pflags.exists_pls_and_mns) {
             break;
         }
 
         // processing for subtraction and addition is not going
         // to be triggerd off before going-through expression
         // processing has not completed once.
-        _go_through = true;
+        pflags.go_through = true;
     }
 
     return 0;
