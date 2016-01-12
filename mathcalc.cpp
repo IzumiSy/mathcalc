@@ -205,31 +205,22 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
     return _stoi(*pflags.expressions.begin());
 }
 
-int main(int argc, char *argv[])
+void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
 {
-    struct PROGRESSION_FLAGS pflags;
-
-    string exp;
-    string::size_type current, prev,
-        pos_plus, pos_minus, pos_multi, pos_div,
-        pos_bracket_begin, pos_bracket_end;
+    string::size_type current, prev, pos_plus, pos_minus, pos_multi, pos_div;
+    string::size_type pos_bracket_begin, pos_bracket_end;
     bool noexp;
-
-    if (argc == 1) {
-        cout << "usage: mathcalc [expression]" << endl;
-        return 0;
-    }
-    exp = argv[1];
 
     current = 0;
     noexp = false;
+
     while (1) {
-        pos_plus = exp.find("+", current);
-        pos_minus = exp.find("-", current);
-        pos_multi = exp.find("*", current);
-        pos_div = exp.find("/", current);
-        pos_bracket_begin = exp.find("(", current);
-        pos_bracket_end = exp.find(")", current);
+        pos_plus = expressions.find("+", current);
+        pos_minus = expressions.find("-", current);
+        pos_multi = expressions.find("*", current);
+        pos_div = expressions.find("/", current);
+        pos_bracket_begin = expressions.find("(", current);
+        pos_bracket_end = expressions.find(")", current);
         if (pos_plus == string::npos &&
             pos_minus == string::npos &&
             pos_multi == string::npos &&
@@ -243,13 +234,29 @@ int main(int argc, char *argv[])
         prev = current;
         current = min(pos_plus, min(pos_minus, min(pos_multi,
                   min(pos_div, min(pos_bracket_begin, pos_bracket_end)))));
-        pflags.expressions.push_back(exp.substr(prev, current - prev));
+        pflags->expressions.push_back(expressions.substr(prev, current - prev));
 
         // expression
         if (noexp) break;
-        pflags.expressions.push_back(exp.substr(current, 1));
+        pflags->expressions.push_back(expressions.substr(current, 1));
         current++;
     }
+
+    return;
+}
+
+int main(int argc, char *argv[])
+{
+    struct PROGRESSION_FLAGS pflags;
+    string expressions;
+
+    if (argc == 1) {
+        cout << "usage: mathcalc [expression]" << endl;
+        return 0;
+    }
+
+    expressions = argv[1];
+    build_expressions(expressions, &pflags);
 
     list<string>::iterator _is_exists_brackets;
     list<string>::iterator bracket_start, bracket_end;
