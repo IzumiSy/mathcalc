@@ -27,13 +27,17 @@ int _stoi(string s) {
     return atoi(s.c_str());
 }
 
-void put_list_in_string(list<string> n)
+string stringify_list(list<string> n)
 {
+    string buf;
     list<string>::iterator begin = n.begin();
     list<string>::iterator end = n.end();
+
     for (;begin != end;begin++) {
-        cout << *begin << " ";
+        buf += (*begin + " ");
     }
+
+    return buf;
 }
 
 // Process expressions
@@ -167,9 +171,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
 
     pflags.go_through = false;
 
-    cout << "( ";
-    put_list_in_string(pflags.expressions);
-    cout << ")" << endl;
+    cout << "( " << stringify_list(pflags.expressions) << ")" << endl;
 
     while (1) {
         pflags.exists_mul_and_div = false;
@@ -180,9 +182,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
             result = sub_calcurate(&pflags);
 
             if (result == 1) {
-                cout << "= ( ";
-                put_list_in_string(pflags.expressions);
-                cout << ")" << endl;
+                cout << "= ( " << stringify_list(pflags.expressions) << ")" << endl;
             } else if (result < 0) {
                 cout << "Error(" << result << ")" << endl;
             }
@@ -248,7 +248,13 @@ void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
 int main(int argc, char *argv[])
 {
     struct PROGRESSION_FLAGS pflags;
+    bool in_bracket;
+    int bracket_value, result;
     string expressions;
+    list<string>::iterator _is_exists_brackets;
+    list<string>::iterator bracket_start, bracket_end;
+    list<string>::iterator bracket_pass_st, bracket_pass_ed;
+    list<string>::iterator exp_begin, exp_end;
 
     if (argc == 1) {
         cout << "usage: mathcalc [expression]" << endl;
@@ -258,21 +264,13 @@ int main(int argc, char *argv[])
     expressions = argv[1];
     build_expressions(expressions, &pflags);
 
-    list<string>::iterator _is_exists_brackets;
-    list<string>::iterator bracket_start, bracket_end;
-    list<string>::iterator bracket_pass_st, bracket_pass_ed;
-    list<string>::iterator exp_begin, exp_end;
-
-    put_list_in_string(pflags.expressions);
-    cout << endl;
+    cout << stringify_list(pflags.expressions) << endl;
 
     // process all multipulication and division at first
     // and after all of them are processed, it starts processing
     // the rest expressions such as addition and subtraction
     pflags.go_through = false;
-
-    bool in_bracket = false;
-    int bracket_value, result;
+    in_bracket = false;
 
     while (1) {
         pflags.exists_mul_and_div = false;
@@ -314,9 +312,7 @@ int main(int argc, char *argv[])
             result = sub_calcurate(&pflags);
 
             if (result == 1) {
-                cout << "= ";
-                put_list_in_string(pflags.expressions);
-                cout << endl;
+                cout << "= " << stringify_list(pflags.expressions) << endl;
             } else if (result < 0) {
                 cout << "Error(" << result << ")" << endl;
             }
