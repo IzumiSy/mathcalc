@@ -1,12 +1,17 @@
+DBG_OPTS = -O0 -g3 -Wall
+SOURCE = mathcalc.cpp
+TARGET = mathcalc
 
-mathcalc: mathcalc.cpp
-	g++ -g -Wall -o mathcalc mathcalc.cpp
+mathcalc: $(SOURCE)
+	g++ $(DBG_OPTS) -Wall -o $(TARGET) $(SOURCE)
 
-.PHONY: clean run
+.PHONY: clean run debug release
 clean:
-	rm mathcalc
+	rm $(TARGET)
 	rm -r mathcalc.dSYM
 
-run: mathcalc
+run: $(TARGET)
 	./mathcalc
 
+release: mathcalc.cpp
+	g++ -Wall -o $(TARGET) $(SOURCE)
