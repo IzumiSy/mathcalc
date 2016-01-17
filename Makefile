@@ -5,6 +5,7 @@ mathcalc: mathcalc.cpp
 .PHONY: clean run
 clean:
 	rm mathcalc
+	rm -r mathcalc.dSYM
 
 run: mathcalc
 	./mathcalc
