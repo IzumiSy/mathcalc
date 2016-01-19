@@ -2,47 +2,101 @@
 #define BRACKET_H
 
 #include "types.h"
+#include "calcurate.h"
 
-#define BRACKET_PAIR_FOUND 1
+#define BEGIN_BRACKET 1
+#define END_BRACKET   2
 
-int match_bracket_pair(list<string> expressions, int bracket_pair_counter)
+int bracket_count(list<string> expressions, int type)
 {
-    list<string>::iterator back_it;
-    int bracket_count = 0;
+    list<string>::iterator it = expressions.begin();
+    int result = 0;
 
-    back_it = expressions.end();
-    while (back_it != expressions.begin()) {
-        if (*back_it == ")") {
-            bracket_count++;
-            if (bracket_count == bracket_pair_counter) {
-                return BRACKET_PAIR_FOUND;
-            }
+    while (it != expressions.end()) {
+        switch (type) {
+            case BEGIN_BRACKET:
+                if (*it == "(") {
+                    result++;
+                }
+                break;
+            case END_BRACKET:
+                if (*it == ")") {
+                    result++;
+                }
+                break;
+            default:
+                ;
         }
-        back_it--;
+        it++;
     }
 
-    return 0;
+    return result;
 }
 
 int process_brackets(struct PROGRESSION_FLAGS *pflags)
 {
-    list<string>::iterator begin_it, back_it;
-    int bracket_count = 0, result;
-    int pair_match_count = 0;
+    list<string> partial_expressions;
+    list<string>::iterator it, pair_match_seek_it;
+    list<string>::iterator last_begin_bracket_it,
+                           pair_end_bracket_it;
+    list<string>::iterator statement_begin,
+                           statement_end;
+    list<string>::iterator insert_position;
+    bool begin_bracket_found,
+         end_bracket_found;
+    int begin_bracket_counter = 0,
+        end_bracket_counter = 0;
+    int bracket_value = 0;
 
-    begin_it = pflags->expressions.begin();
-    while (begin_it != pflags->expressions.end()) {
-        if (*begin_it == "(") {
-            bracket_count++;
-            result = match_bracket_pair(pflags->expressions, bracket_count);
-            if (result == BRACKET_PAIR_FOUND) {
-                pair_match_count++;
-            }
-        }
-        begin_it++;
+    begin_bracket_counter = bracket_count(pflags->expressions, BEGIN_BRACKET);
+    end_bracket_counter = bracket_count(pflags->expressions, END_BRACKET);
+    if (begin_bracket_counter != end_bracket_counter) {
+        return -1;
     }
 
-    return (bracket_count == pair_match_count);
+    it = pflags->expressions.begin();
+    while (it != pflags->expressions.end()) {
+        begin_bracket_found = false;
+        end_bracket_found = false;
+
+        if (*it == "(") {
+            begin_bracket_found = true;
+            last_begin_bracket_it = it;
+
+            pair_match_seek_it = it;
+            while (pair_match_seek_it != pflags->expressions.end()) {
+                pair_match_seek_it++;
+                if (*pair_match_seek_it == "(") {
+                    break;
+                }
+                if (*pair_match_seek_it == ")") {
+                    end_bracket_found = true;
+                    pair_match_seek_it++; pair_end_bracket_it = pair_match_seek_it;
+                    break;
+                }
+            }
+        }
+        if (begin_bracket_found && end_bracket_found) {
+            break;
+        }
+
+        it++;
+    }
+
+    statement_begin = last_begin_bracket_it;
+    statement_begin++;
+    statement_end = pair_end_bracket_it;
+    statement_end--;
+    bracket_value = calcurate(statement_begin, statement_end);
+    cout << bracket_value << endl;
+
+    insert_position = last_begin_bracket_it;
+    insert_position--;
+    pflags->expressions.erase(last_begin_bracket_it, pair_end_bracket_it);
+    pflags->expressions.insert(insert_position, _itos(bracket_value));
+    cout << stringify_list(pflags->expressions) << endl;
+
+    return 0;
 }
 
 #endif
