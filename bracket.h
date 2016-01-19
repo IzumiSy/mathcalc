@@ -7,6 +7,9 @@
 #define BEGIN_BRACKET 1
 #define END_BRACKET   2
 
+#define NO_MORE_BRACKETS -1
+#define BRACKET_MISMATCH -2
+
 int bracket_count(list<string> expressions, int type)
 {
     list<string>::iterator it = expressions.begin();
@@ -51,7 +54,10 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
     begin_bracket_counter = bracket_count(pflags->expressions, BEGIN_BRACKET);
     end_bracket_counter = bracket_count(pflags->expressions, END_BRACKET);
     if (begin_bracket_counter != end_bracket_counter) {
-        return -1;
+        return BRACKET_MISMATCH;
+    }
+    if (!begin_bracket_counter || !end_bracket_counter) {
+        return NO_MORE_BRACKETS;
     }
 
     it = pflags->expressions.begin();
