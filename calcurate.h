@@ -126,7 +126,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
 
     pflags.go_through = false;
 
-    cout << "( " << stringify_list(pflags.expressions) << ")" << endl;
+    cout << "(" << stringify_list(pflags.expressions) << ")" << endl;
 
     while (1) {
         pflags.exists_mul_and_div = false;
@@ -137,7 +137,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
             result = sub_calcurate(&pflags);
 
             if (result == 1) {
-                cout << "= ( " << stringify_list(pflags.expressions) << ")" << endl;
+                cout << "= (" << stringify_list(pflags.expressions) << ")" << endl;
             } else if (result < 0) {
                 cout << "Error(" << result << ")" << endl;
             }
