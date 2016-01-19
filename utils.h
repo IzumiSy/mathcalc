@@ -22,7 +22,7 @@ string stringify_list(list<string> n)
     list<string>::iterator end = n.end();
 
     for (;begin != end;begin++) {
-        buf += (*begin + " ");
+        buf += *begin;
     }
 
     return buf;

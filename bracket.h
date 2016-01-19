@@ -88,7 +88,6 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
     statement_end = pair_end_bracket_it;
     statement_end--;
     bracket_value = calcurate(statement_begin, statement_end);
-    cout << bracket_value << endl;
 
     insert_position = last_begin_bracket_it;
     insert_position--;
