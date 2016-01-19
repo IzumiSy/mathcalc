@@ -1,3 +1,6 @@
+#ifndef BRACKET_H
+#define BRACKET_H
+
 #include "types.h"
 
 #define BRACKET_PAIR_FOUND 1
@@ -41,3 +44,5 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
 
     return (bracket_count == pair_match_count);
 }
+
+#endif
