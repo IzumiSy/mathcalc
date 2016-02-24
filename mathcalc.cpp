@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
     expressions = argv[1];
     build_expressions(expressions, &pflags);
 
-    cout << "> " << stringify_list(pflags.expressions) << endl;
-
     // Clean up bracket-wrapped expressions
     exec_bracket_processing(&pflags);
 
