@@ -112,4 +112,28 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
     return 0;
 }
 
+void exec_bracket_processing(struct PROGRESSION_FLAGS *pflags)
+{
+    bool exit_bracket_processing = false;
+
+    while (1) {
+        cout << "------" << endl;
+        switch (process_brackets(pflags)) {
+            case NO_MORE_BRACKETS:
+                exit_bracket_processing = true;
+                break;
+            case BRACKET_MISMATCH:
+                cout << "Bracket mis-match" << endl;
+                return;
+            default:
+                break;
+        }
+        if (exit_bracket_processing) {
+            break;
+        }
+    }
+
+    return;
+}
+
 #endif

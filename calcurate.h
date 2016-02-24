@@ -190,6 +190,8 @@ void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
         current++;
     }
 
+    cout << "> " << stringify_list(pflags->expressions) << endl;
+
     return;
 }
 
