@@ -44,6 +44,7 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
                            pair_end_bracket_it;
     list<string>::iterator statement_begin,
                            statement_end;
+    list<string>::iterator delete_back_it;
     list<string>::iterator insert_position;
     bool begin_bracket_found,
          end_bracket_found;
@@ -77,7 +78,8 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
                 }
                 if (*pair_match_seek_it == ")") {
                     end_bracket_found = true;
-                    pair_match_seek_it++; pair_end_bracket_it = pair_match_seek_it;
+                    pair_match_seek_it++;
+                    pair_end_bracket_it = pair_match_seek_it;
                     break;
                 }
             }
@@ -95,10 +97,16 @@ int process_brackets(struct PROGRESSION_FLAGS *pflags)
     statement_end--;
     bracket_value = calcurate(statement_begin, statement_end);
 
-    insert_position = last_begin_bracket_it;
+    delete_back_it = pair_end_bracket_it;
+    delete_back_it++;
+
+    insert_position = pflags->expressions.erase(last_begin_bracket_it, delete_back_it);
+    insert_position = pflags->expressions.insert(insert_position, _itos(bracket_value));
+
+    // Clean up waste element that is added after inserting bracket_value
     insert_position--;
-    pflags->expressions.erase(last_begin_bracket_it, pair_end_bracket_it);
-    pflags->expressions.insert(insert_position, _itos(bracket_value));
+    pflags->expressions.erase(insert_position);
+
     cout << stringify_list(pflags->expressions) << endl;
 
     return 0;

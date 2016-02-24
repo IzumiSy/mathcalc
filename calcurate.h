@@ -109,18 +109,10 @@ int sub_calcurate(struct PROGRESSION_FLAGS *pflags)
 int calcurate(list<string>::iterator begin, list<string>::iterator end)
 {
     struct PROGRESSION_FLAGS pflags;
-    list<string>::iterator exp_begin, exp_end;
     int result;
 
-    exp_begin = begin;
-    end--;
-    if (*end != ")") {
-        end++;
-    }
-    exp_end = end;
-
-    pflags.it = exp_begin;
-    for (;pflags.it != exp_end;pflags.it++)  {
+    pflags.it = begin;
+    for (;pflags.it != end;pflags.it++)  {
         pflags.expressions.push_back(*pflags.it);
     }
 
@@ -164,6 +156,7 @@ void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
 {
     string::size_type current, prev, pos_plus, pos_minus, pos_multi, pos_div;
     string::size_type pos_bracket_begin, pos_bracket_end;
+    string substr_buffer;
     bool noexp;
 
     current = 0;
