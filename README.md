@@ -1,4 +1,5 @@
 # mathcalc
+Simple arithmetic calculater for command-line.
 ```bash
 $ ./mathcalc "1+2+(10*2+(5*2))+10"
 > 1+2+(10*2+(5*2))+10
