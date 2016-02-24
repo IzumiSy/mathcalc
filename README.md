@@ -1,5 +1,4 @@
 # mathcalc
-
 ```bash
 $ ./mathcalc "1+2+(10*2+(5*2))+10"
 > 1+2+(10*2+(5*2))+10
@@ -18,4 +17,19 @@ $ ./mathcalc "1+2+(10*2+(5*2))+10"
 = (3+40)
 = (43)
 43
+```
+
+## Build
+```bash
+$ make
+```
+## Run
+```bash
+$ ./mathcalc
+usage: mathcalc [expression]
+```
+
+## Clean-up
+```bash
+$ make clean
 ```
