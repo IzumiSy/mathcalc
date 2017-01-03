@@ -12,6 +12,8 @@ using namespace std;
 #include "bracket.h"
 #include "calcurate.h"
 
+#include "calculator.cpp"
+
 int main(int argc, char *argv[])
 {
     struct PROGRESSION_FLAGS pflags;
