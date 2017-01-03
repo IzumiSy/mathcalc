@@ -5,19 +5,18 @@
 #include <string>
 #include "types.h"
 
-typedef std::string EXPRESSION_SIGN;
-
 class StringExpression {
   private:
     struct ExpressionList expressionList;
-    std::vector<EXPRESSION_SIGN> expressionSigns;
+    std::vector<struct SIGN> expressionSigns;
     std::string::size_type currentPos;
     std::string::size_type nextExpressionPos;
     std::string expressions;
 
-    void setSign(std::string sign);
+    struct SIGN makeSign(std::string sign, SIGN_TYPE type);
+    void addSign(struct SIGN sign);
     void defineExpressionSings();
-    EXPRESSION_TYPE getExpressionType(std::string sign);
+    SIGN_TYPE getExpressionType(std::string sign);
     std::string::size_type getNextExpressionPos();
 
   public:

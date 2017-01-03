@@ -4,16 +4,24 @@
 #include <list>
 #include <string>
 
-enum EXPRESSION_TYPE {
+enum SIGN_TYPE {
   PLUS = 0,
   MINUS,
   DIVIDE,
-  MULTIPLE,
+  MULTIPLY,
   BRACKET_BEGIN,
   BRACKET_END,
-
-  VALUE,
   OTHER
+};
+
+enum EXPRESSION_TYPE {
+  VALUE,
+  SIGN
+};
+
+struct SIGN {
+  SIGN_TYPE type;
+  std::string string;
 };
 
 struct EXPRESSION {

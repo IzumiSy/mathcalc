@@ -4,36 +4,33 @@
 #include "stringExpression.h"
 #include "types.h"
 
-void StringExpression::setSign(std::string sign) {
+struct SIGN StringExpression::makeSign(std::string sign, SIGN_TYPE type) {
+  struct SIGN expressionSign;
+  expressionSign.string = sign;
+  expressionSign.type = type;
+  return expressionSign;
+}
+
+void StringExpression::addSign(struct SIGN sign) {
   this->expressionSigns.push_back(sign);
 }
 
 void StringExpression::defineExpressionSings() {
-  this->setSign("+");
-  this->setSign("-");
-  this->setSign("*");
-  this->setSign("/");
-  this->setSign("(");
-  this->setSign(")");
-}
-
-EXPRESSION_TYPE StringExpression::getExpressionType(std::string sign) {
-  if (sign == "+") return PLUS;
-  else if (sign == "-") return MINUS;
-  else if (sign == "/") return DIVIDE;
-  else if (sign == "*") return MULTIPLE;
-  else if (sign == "(") return BRACKET_BEGIN;
-  else if (sign == ")") return BRACKET_END;
-  else return OTHER;
+  this->addSign(this->makeSign("+", PLUS));
+  this->addSign(this->makeSign("-", MINUS));
+  this->addSign(this->makeSign("*", MULTIPLY));
+  this->addSign(this->makeSign("/", DIVIDE));
+  this->addSign(this->makeSign("(", BRACKET_BEGIN));
+  this->addSign(this->makeSign(")", BRACKET_END));
 }
 
 std::string::size_type StringExpression::getNextExpressionPos() {
   std::vector<std::string::size_type> expressionPositionsIndex;
-  std::vector<EXPRESSION_SIGN>::iterator it = this->expressionSigns.begin();
-  std::vector<EXPRESSION_SIGN>::iterator end = this->expressionSigns.end();
+  std::vector<struct SIGN>::iterator it = this->expressionSigns.begin();
+  std::vector<struct SIGN>::iterator end = this->expressionSigns.end();
 
   for (; it != end; it++) {
-    expressionPositionsIndex.push_back(this->expressions.find(*it, this->currentPos));
+    expressionPositionsIndex.push_back(this->expressions.find(it->string, this->currentPos));
   }
 
   return *std::min_element(expressionPositionsIndex.begin(), expressionPositionsIndex.end());
@@ -80,7 +77,7 @@ void StringExpression::parseExpression() {
   struct EXPRESSION expression;
   std::string expressionPart = this->expressions.substr(nextExpressionPos, 1);
 
-  expression.type = this->getExpressionType(expressionPart);
+  expression.type = SIGN;
   expression.value = expressionPart;
   this->expressionList.expressions.push_back(expression);
 }
