@@ -1,44 +1,23 @@
 #include <string>
 #include <list>
-#include "types.h"
+#include "calculator.h"
 
-struct PROGRESSION_FLAGS {
-    list<string> expressions;
-    list<string>::iterator it;
-    bool exists_mul_and_div;
-    bool exists_pls_and_mns;
-    bool go_through;
-};
-
-class Calculator {
-  private:
-    struct PROGRESSION_FLAGS pflags;
-
-  public:
-    void Calculator();
-    void ~Calculator();
-
-    void buildExpressions();
-    void processBrackets();
-    void execCalculation();
-};
-
-void Calculator::Calculator(string expression) {
-
+Calculator::Calculator(std::string expression) {
+  return;
 }
 
-void Calculator::~Calculater() {
-
+Calculator::~Calculator() {
+  return;
 }
 
 void Calculator::buildExpressions() {
-
+  return;
 }
 
 void Calculator::processBrackets() {
-
+  return;
 }
 
 void Calculator::execCalculation() {
-
+  return;
 }
