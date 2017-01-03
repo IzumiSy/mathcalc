@@ -14,4 +14,4 @@ run: $(TARGET)
 	./mathcalc
 
 release: mathcalc.cpp
-	g++ -Wall -o $(TARGET) $(SOURCE)
+	g++ -o $(TARGET) $(SOURCE)
