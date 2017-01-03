@@ -3,7 +3,7 @@ SOURCE = mathcalc.cpp calculator.cpp
 TARGET = mathcalc
 
 mathcalc: $(SOURCE)
-	g++ $(DBG_OPTS) -Wall -o $(TARGET) $(SOURCE)
+	g++ $(DBG_OPTS) -o $(TARGET) $(SOURCE)
 
 .PHONY: clean run debug release
 clean:
