@@ -15,13 +15,14 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    struct PROGRESSION_FLAGS pflags;
-    string expressions;
-
     if (argc == 1) {
         cout << "usage: mathcalc [expression]" << endl;
-        return 0;
+        return 1;
     }
+
+    struct PROGRESSION_FLAGS pflags;
+    string expressions = argv[1];
+    Calculator calculator(expressions);
 
     // Build expression array from string given from command-line
     expressions = argv[1];
