@@ -1,8 +1,12 @@
 #include <string>
 #include <list>
+#include <vector>
+#include <algorithm>
 #include "calculator.h"
+#include "stringExpression.h"
 
-Calculator::Calculator(std::string expression) {
+Calculator::Calculator(std::string expressions) {
+  this->stringExpressions = expressions;
   return;
 }
 
@@ -10,7 +14,25 @@ Calculator::~Calculator() {
   return;
 }
 
-void Calculator::buildExpressions() {
+void Calculator::parseStringExpressions() {
+  StringExpression stringExpression(this->stringExpressions);
+
+  while (1) {
+    stringExpression.begin();
+    stringExpression.parseNumberValue();
+    if (stringExpression.hasNextExpression()) {
+      stringExpression.parseExpression();
+      stringExpression.next();
+    } else {
+      break;
+    }
+  }
+
+  this->expressionList = stringExpression.getExpressionsList();
+  return;
+}
+
+void Calculator::printExpressions() {
   return;
 }
 

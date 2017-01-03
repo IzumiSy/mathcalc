@@ -20,10 +20,14 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    struct PROGRESSION_FLAGS pflags;
+    // struct PROGRESSION_FLAGS pflags;
     string expressions = argv[1];
-    Calculator calculator(expressions);
 
+    Calculator calc(expressions);
+    calc.parseStringExpressions();
+    calc.printExpressions();
+
+    /*
     // Build expression array from string given from command-line
     expressions = argv[1];
     build_expressions(expressions, &pflags);
@@ -33,6 +37,7 @@ int main(int argc, char *argv[])
 
     // Last calcuration after cleaning up of brackets
     cout << calcurate(pflags.expressions.begin(), pflags.expressions.end()) << endl;
+    */
 
     return 0;
 }

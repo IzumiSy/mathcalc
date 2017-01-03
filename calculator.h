@@ -7,13 +7,18 @@
 
 class Calculator {
   private:
-    struct PROGRESSION_FLAGS pflags;
+    // struct PROGRESSION_FLAGS pflags;
+
+    std::string stringExpressions;
+    struct ExpressionList expressionList;
 
   public:
     Calculator(std::string expressions);
     ~Calculator();
 
-    void buildExpressions();
+    void parseStringExpressions();
+    void printExpressions();
+
     void processBrackets();
     void execCalculation();
 };

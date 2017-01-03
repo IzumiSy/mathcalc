@@ -1,6 +1,30 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <list>
+#include <string>
+
+enum EXPRESSION_TYPE {
+  PLUS = 0,
+  MINUS,
+  DIVIDE,
+  MULTIPLE,
+  BRACKET_BEGIN,
+  BRACKET_END,
+
+  VALUE,
+  OTHER
+};
+
+struct EXPRESSION {
+  EXPRESSION_TYPE type;
+  std::string value;
+};
+
+struct ExpressionList {
+  std::list<struct EXPRESSION> expressions;
+};
+
 struct EXP_DIVIDER_RESULT {
     int left_value;
     int right_value;
