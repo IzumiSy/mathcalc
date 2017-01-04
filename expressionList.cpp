@@ -18,7 +18,7 @@ std::string ExpressionList::getStringified() {
   std::list<struct EXPRESSION>::iterator end = this->expressions.end();
 
   for (; it != end; it++) {
-      buffer += it->value;
+    buffer += it->value;
   }
 
   return buffer;
