@@ -4,23 +4,23 @@
 #include <list>
 #include <string>
 
-enum SYMBOL_TYPE {
-  PLUS = 0,
-  MINUS,
-  DIVIDE,
-  MULTIPLY,
-  BRACKET_BEGIN,
-  BRACKET_END,
-  OTHER
-};
-
 struct SYMBOL {
-  SYMBOL_TYPE type;
-  std::string string;
+  enum TYPES {
+    PLUS = 0,
+    MINUS,
+    DIVIDE,
+    MULTIPLY,
+    BRACKET_BEGIN,
+    BRACKET_END,
+    OTHER
+  };
 
-  static SYMBOL makeSign(std::string sign, SYMBOL_TYPE type) {
+  SYMBOL::TYPES type;
+  std::string character;
+
+  static SYMBOL makeSymbol(std::string character, SYMBOL::TYPES type) {
     struct SYMBOL symbol;
-    symbol.string = sign;
+    symbol.character = character;
     symbol.type = type;
     return symbol;
   }

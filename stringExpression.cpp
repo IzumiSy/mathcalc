@@ -9,12 +9,12 @@ void StringExpression::addSign(struct SYMBOL sign) {
 }
 
 void StringExpression::defineExpressionSings() {
-  this->addSign(SYMBOL::makeSign("+", PLUS));
-  this->addSign(SYMBOL::makeSign("-", MINUS));
-  this->addSign(SYMBOL::makeSign("*", MULTIPLY));
-  this->addSign(SYMBOL::makeSign("/", DIVIDE));
-  this->addSign(SYMBOL::makeSign("(", BRACKET_BEGIN));
-  this->addSign(SYMBOL::makeSign(")", BRACKET_END));
+  this->addSign(SYMBOL::makeSymbol("+", SYMBOL::PLUS));
+  this->addSign(SYMBOL::makeSymbol("-", SYMBOL::MINUS));
+  this->addSign(SYMBOL::makeSymbol("*", SYMBOL::MULTIPLY));
+  this->addSign(SYMBOL::makeSymbol("/", SYMBOL::DIVIDE));
+  this->addSign(SYMBOL::makeSymbol("(", SYMBOL::BRACKET_BEGIN));
+  this->addSign(SYMBOL::makeSymbol(")", SYMBOL::BRACKET_END));
 }
 
 std::string::size_type StringExpression::getNextExpressionPos() {
@@ -23,7 +23,7 @@ std::string::size_type StringExpression::getNextExpressionPos() {
   std::vector<struct SYMBOL>::iterator end = this->expressionSigns.end();
 
   for (; it != end; it++) {
-    expressionPositionsIndex.push_back(this->expressions.find(it->string, this->currentPos));
+    expressionPositionsIndex.push_back(this->expressions.find(it->character, this->currentPos));
   }
 
   return *std::min_element(expressionPositionsIndex.begin(), expressionPositionsIndex.end());

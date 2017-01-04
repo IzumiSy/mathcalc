@@ -13,10 +13,9 @@ class StringExpression {
     std::string::size_type nextExpressionPos;
     std::string expressions;
 
-    struct SYMBOL makeSign(std::string sign, SYMBOL_TYPE type);
     void addSign(struct SYMBOL sign);
     void defineExpressionSings();
-    SYMBOL_TYPE getExpressionType(std::string sign);
+    SYMBOL::TYPES getExpressionType(std::string sign);
     std::string::size_type getNextExpressionPos();
 
   public:
