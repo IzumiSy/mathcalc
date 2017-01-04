@@ -8,13 +8,13 @@
 class StringExpression {
   private:
     struct ExpressionList expressionList;
-    std::vector<struct SYMBOL> expressionSigns;
+    std::vector<struct SYMBOL> symbols;
     std::string::size_type currentPos;
     std::string::size_type nextExpressionPos;
     std::string expressions;
 
-    void addSign(struct SYMBOL sign);
-    void defineExpressionSings();
+    void addSymbol(struct SYMBOL sign);
+    void defineSymbols();
     SYMBOL::TYPES getExpressionType(std::string sign);
     std::string::size_type getNextExpressionPos();
 

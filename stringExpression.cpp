@@ -4,23 +4,23 @@
 #include "stringExpression.h"
 #include "types.h"
 
-void StringExpression::addSign(struct SYMBOL sign) {
-  this->expressionSigns.push_back(sign);
+void StringExpression::addSymbol(struct SYMBOL symbol) {
+  this->symbols.push_back(symbol);
 }
 
-void StringExpression::defineExpressionSings() {
-  this->addSign(SYMBOL::makeSymbol("+", SYMBOL::PLUS));
-  this->addSign(SYMBOL::makeSymbol("-", SYMBOL::MINUS));
-  this->addSign(SYMBOL::makeSymbol("*", SYMBOL::MULTIPLY));
-  this->addSign(SYMBOL::makeSymbol("/", SYMBOL::DIVIDE));
-  this->addSign(SYMBOL::makeSymbol("(", SYMBOL::BRACKET_BEGIN));
-  this->addSign(SYMBOL::makeSymbol(")", SYMBOL::BRACKET_END));
+void StringExpression::defineSymbols() {
+  this->addSymbol(SYMBOL::makeSymbol("+", SYMBOL::PLUS));
+  this->addSymbol(SYMBOL::makeSymbol("-", SYMBOL::MINUS));
+  this->addSymbol(SYMBOL::makeSymbol("*", SYMBOL::MULTIPLY));
+  this->addSymbol(SYMBOL::makeSymbol("/", SYMBOL::DIVIDE));
+  this->addSymbol(SYMBOL::makeSymbol("(", SYMBOL::BRACKET_BEGIN));
+  this->addSymbol(SYMBOL::makeSymbol(")", SYMBOL::BRACKET_END));
 }
 
 std::string::size_type StringExpression::getNextExpressionPos() {
   std::vector<std::string::size_type> expressionPositionsIndex;
-  std::vector<struct SYMBOL>::iterator it = this->expressionSigns.begin();
-  std::vector<struct SYMBOL>::iterator end = this->expressionSigns.end();
+  std::vector<struct SYMBOL>::iterator it = this->symbols.begin();
+  std::vector<struct SYMBOL>::iterator end = this->symbols.end();
 
   for (; it != end; it++) {
     expressionPositionsIndex.push_back(this->expressions.find(it->character, this->currentPos));
@@ -30,7 +30,7 @@ std::string::size_type StringExpression::getNextExpressionPos() {
 }
 
 StringExpression::StringExpression(std::string expressions) {
-  this->defineExpressionSings();
+  this->defineSymbols();
   this->expressions = expressions;
   this->currentPos = 0;
 }
