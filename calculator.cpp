@@ -30,6 +30,7 @@ void Calculator::parseStringExpressions() {
   }
 
   this->expressionList = stringExpression.getExpressionsList();
+  this->expressionList.cleanupJunks();
   return;
 }
 

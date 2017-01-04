@@ -32,7 +32,7 @@ struct SYMBOL {
 
 struct EXPRESSION {
   enum TYPES {
-    VALUE,
+    VALUE = 0,
     SYMBOL
   };
 

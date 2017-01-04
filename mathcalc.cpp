@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 
     Calculator calc(expressions);
     try {
-      calc.validateExpressions();
       calc.parseStringExpressions();
+      calc.validateExpressions();
       calc.printExpressions();
     } catch (struct Exception e) {
       std::cerr << "Error: " << e.msg() << std::endl;

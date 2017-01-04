@@ -9,8 +9,13 @@ class ExpressionList {
   private:
     std::list<struct EXPRESSION> expressions;
 
+    static bool emptyExpression(const struct EXPRESSION &expression) {
+      return (expression.type == EXPRESSION::VALUE && expression.value == "");
+    };
+
   public:
     void add(struct EXPRESSION expression);
+    void cleanupJunks();
     void validateBracketsParing();
     void validateDuplicatedSymbol();
     void validateLonelySymbol();
