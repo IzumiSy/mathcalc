@@ -18,15 +18,21 @@ int main(int argc, char *argv[])
 {
     if (argc == 1) {
         cout << "usage: mathcalc [expression]" << endl;
-        return 1;
+        exit(1);
     }
 
     // struct PROGRESSION_FLAGS pflags;
     string expressions = argv[1];
 
     Calculator calc(expressions);
-    calc.parseStringExpressions();
-    calc.printExpressions();
+    try {
+      calc.validateExpressions();
+      calc.parseStringExpressions();
+      calc.printExpressions();
+    } catch (struct Exception e) {
+      std::cerr << "Error: " << e.msg() << std::endl;
+      exit(1);
+    }
 
     /*
     // Build expression array from string given from command-line
