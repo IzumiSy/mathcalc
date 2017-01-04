@@ -48,7 +48,7 @@ void StringExpression::next() {
 }
 
 bool StringExpression::hasNextExpression() {
-  nextExpressionPos = this->getNextExpressionPos();
+  this->nextExpressionPos = this->getNextExpressionPos();
   if (this->nextExpressionPos == std::string::npos) {
     return false;
   } else {
