@@ -4,24 +4,17 @@
 #include "stringExpression.h"
 #include "types.h"
 
-struct SYMBOL StringExpression::makeSign(std::string sign, SYMBOL_TYPE type) {
-  struct SYMBOL expressionSign;
-  expressionSign.string = sign;
-  expressionSign.type = type;
-  return expressionSign;
-}
-
 void StringExpression::addSign(struct SYMBOL sign) {
   this->expressionSigns.push_back(sign);
 }
 
 void StringExpression::defineExpressionSings() {
-  this->addSign(this->makeSign("+", PLUS));
-  this->addSign(this->makeSign("-", MINUS));
-  this->addSign(this->makeSign("*", MULTIPLY));
-  this->addSign(this->makeSign("/", DIVIDE));
-  this->addSign(this->makeSign("(", BRACKET_BEGIN));
-  this->addSign(this->makeSign(")", BRACKET_END));
+  this->addSign(SYMBOL::makeSign("+", PLUS));
+  this->addSign(SYMBOL::makeSign("-", MINUS));
+  this->addSign(SYMBOL::makeSign("*", MULTIPLY));
+  this->addSign(SYMBOL::makeSign("/", DIVIDE));
+  this->addSign(SYMBOL::makeSign("(", BRACKET_BEGIN));
+  this->addSign(SYMBOL::makeSign(")", BRACKET_END));
 }
 
 std::string::size_type StringExpression::getNextExpressionPos() {

@@ -17,6 +17,13 @@ enum SYMBOL_TYPE {
 struct SYMBOL {
   SYMBOL_TYPE type;
   std::string string;
+
+  static SYMBOL makeSign(std::string sign, SYMBOL_TYPE type) {
+    struct SYMBOL symbol;
+    symbol.string = sign;
+    symbol.type = type;
+    return symbol;
+  }
 };
 
 enum EXPRESSION_TYPE {
