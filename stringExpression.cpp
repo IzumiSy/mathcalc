@@ -4,14 +4,14 @@
 #include "stringExpression.h"
 #include "types.h"
 
-struct SIGN StringExpression::makeSign(std::string sign, SIGN_TYPE type) {
-  struct SIGN expressionSign;
+struct SYMBOL StringExpression::makeSign(std::string sign, SYMBOL_TYPE type) {
+  struct SYMBOL expressionSign;
   expressionSign.string = sign;
   expressionSign.type = type;
   return expressionSign;
 }
 
-void StringExpression::addSign(struct SIGN sign) {
+void StringExpression::addSign(struct SYMBOL sign) {
   this->expressionSigns.push_back(sign);
 }
 
@@ -26,8 +26,8 @@ void StringExpression::defineExpressionSings() {
 
 std::string::size_type StringExpression::getNextExpressionPos() {
   std::vector<std::string::size_type> expressionPositionsIndex;
-  std::vector<struct SIGN>::iterator it = this->expressionSigns.begin();
-  std::vector<struct SIGN>::iterator end = this->expressionSigns.end();
+  std::vector<struct SYMBOL>::iterator it = this->expressionSigns.begin();
+  std::vector<struct SYMBOL>::iterator end = this->expressionSigns.end();
 
   for (; it != end; it++) {
     expressionPositionsIndex.push_back(this->expressions.find(it->string, this->currentPos));
@@ -77,7 +77,7 @@ void StringExpression::parseExpression() {
   struct EXPRESSION expression;
   std::string expressionPart = this->expressions.substr(nextExpressionPos, 1);
 
-  expression.type = SIGN;
+  expression.type = SYMBOL;
   expression.value = expressionPart;
   this->expressionList.expressions.push_back(expression);
 }

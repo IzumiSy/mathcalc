@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 
-enum SIGN_TYPE {
+enum SYMBOL_TYPE {
   PLUS = 0,
   MINUS,
   DIVIDE,
@@ -14,14 +14,14 @@ enum SIGN_TYPE {
   OTHER
 };
 
-enum EXPRESSION_TYPE {
-  VALUE,
-  SIGN
+struct SYMBOL {
+  SYMBOL_TYPE type;
+  std::string string;
 };
 
-struct SIGN {
-  SIGN_TYPE type;
-  std::string string;
+enum EXPRESSION_TYPE {
+  VALUE,
+  SYMBOL
 };
 
 struct EXPRESSION {

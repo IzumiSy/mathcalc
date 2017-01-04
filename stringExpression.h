@@ -8,15 +8,15 @@
 class StringExpression {
   private:
     struct ExpressionList expressionList;
-    std::vector<struct SIGN> expressionSigns;
+    std::vector<struct SYMBOL> expressionSigns;
     std::string::size_type currentPos;
     std::string::size_type nextExpressionPos;
     std::string expressions;
 
-    struct SIGN makeSign(std::string sign, SIGN_TYPE type);
-    void addSign(struct SIGN sign);
+    struct SYMBOL makeSign(std::string sign, SYMBOL_TYPE type);
+    void addSign(struct SYMBOL sign);
     void defineExpressionSings();
-    SIGN_TYPE getExpressionType(std::string sign);
+    SYMBOL_TYPE getExpressionType(std::string sign);
     std::string::size_type getNextExpressionPos();
 
   public:
