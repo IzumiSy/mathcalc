@@ -39,6 +39,14 @@ void Calculator::printExpressions() {
   return;
 }
 
+bool Calculator::validateExpressions() {
+  return (
+    this->expressionList.validateBracketsParing()   &&
+    this->expressionList.validateDuplicatedSymbol() &&
+    this->expressionList.validateLonelySymbol()
+  );
+}
+
 void Calculator::execCalculation() {
   return;
 }

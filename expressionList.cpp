@@ -19,3 +19,15 @@ std::string ExpressionList::getStringified() {
   return buffer;
 }
 
+bool ExpressionList::validateBracketsParing() {
+  return true;
+}
+
+bool ExpressionList::validateDuplicatedSymbol() {
+  return true;
+}
+
+bool ExpressionList::validateLonelySymbol() {
+  return true;
+}
+

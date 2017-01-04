@@ -19,6 +19,7 @@ class Calculator {
 
     void parseStringExpressions();
     void printExpressions();
+    bool validateExpressions();
     void execCalculation();
 };
 
