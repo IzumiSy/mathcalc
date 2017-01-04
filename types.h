@@ -51,17 +51,31 @@ struct EXPRESSION {
   }
 };
 
+struct Exception {
+  std::string message;
+
+  static struct Exception make(std::string message) {
+    struct Exception e;
+    e.message = message;
+    return e;
+  };
+
+  const char *msg() {
+    return this->message.c_str();
+  };
+};
+
 struct EXP_DIVIDER_RESULT {
-    int left_value;
-    int right_value;
+  int left_value;
+  int right_value;
 };
 
 struct PROGRESSION_FLAGS {
-    std::list<std::string> expressions;
-    std::list<std::string>::iterator it;
-    bool exists_mul_and_div;
-    bool exists_pls_and_mns;
-    bool go_through;
+  std::list<std::string> expressions;
+  std::list<std::string>::iterator it;
+  bool exists_mul_and_div;
+  bool exists_pls_and_mns;
+  bool go_through;
 };
 
 #endif
