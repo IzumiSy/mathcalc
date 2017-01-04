@@ -44,7 +44,9 @@ void ExpressionList::validateDuplicatedSymbol() {
     if (it->type == EXPRESSION::SYMBOL) {
       temp = it;
       temp++;
-      if (temp->type == EXPRESSION::SYMBOL && temp->value != std::string("(") && temp->value != ")") {
+      if ((it->value != std::string(")")) &&
+          (temp->type == EXPRESSION::SYMBOL) &&
+          (temp->value != std::string("("))) {
         throw Exception::make("Duplicated symbol.");
       }
     }
@@ -54,7 +56,15 @@ void ExpressionList::validateDuplicatedSymbol() {
 }
 
 void ExpressionList::validateLonelySymbol() {
-  // throw Exception::make("Lonely symbol.");
+  std::list<struct EXPRESSION>::iterator head = this->expressions.begin();
+  std::list<struct EXPRESSION>::iterator tail = this->expressions.end();
+
+  tail--;
+  if ((head->type == EXPRESSION::SYMBOL && head->value != std::string("(")) ||
+      (tail->type == EXPRESSION::SYMBOL && tail->value != std::string(")"))) {
+    throw Exception::make("Lonely symbol.");
+  }
+
   return;
 }
 
