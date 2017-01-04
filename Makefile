@@ -7,8 +7,10 @@ mathcalc: $(SOURCE)
 
 .PHONY: clean run debug release
 clean:
-	rm $(TARGET)
-	rm -r mathcalc.dSYM
+	$(shell [ -e $(TARGET) ] && rm $(TARGET))
+	$(shell [ -e core ] && rm core)
+	$(shell [ -d mathcalc.dSYM ] && rm -r mathcalc.dSYM)
+	@echo Done
 
 run: $(TARGET)
 	./mathcalc
