@@ -24,6 +24,10 @@ struct SYMBOL {
     symbol.type = type;
     return symbol;
   };
+
+  bool operator==(std::string character) {
+    return (this->character == character);
+  }
 };
 
 struct EXPRESSION {
@@ -41,6 +45,10 @@ struct EXPRESSION {
     expression.value = value;
     return expression;
   };
+
+  bool operator==(std::string value) {
+    return (this->value == value);
+  }
 };
 
 struct EXP_DIVIDER_RESULT {
