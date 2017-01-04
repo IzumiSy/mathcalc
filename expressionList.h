@@ -11,9 +11,9 @@ class ExpressionList {
 
   public:
     void add(struct EXPRESSION expression);
-    bool validateBracketsParing();
-    bool validateDuplicatedSymbol();
-    bool validateLonelySymbol();
+    void validateBracketsParing();
+    void validateDuplicatedSymbol();
+    void validateLonelySymbol();
     std::string getStringified();
 };
 
