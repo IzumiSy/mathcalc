@@ -39,10 +39,6 @@ void Calculator::printExpressions() {
   return;
 }
 
-void Calculator::processBrackets() {
-  return;
-}
-
 void Calculator::execCalculation() {
   return;
 }

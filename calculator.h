@@ -19,8 +19,6 @@ class Calculator {
 
     void parseStringExpressions();
     void printExpressions();
-
-    void processBrackets();
     void execCalculation();
 };
 
