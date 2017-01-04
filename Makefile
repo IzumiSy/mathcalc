@@ -1,5 +1,5 @@
 DBG_OPTS = -O0 -g3 -Wall
-SOURCE = mathcalc.cpp calculator.cpp stringExpression.cpp
+SOURCE = mathcalc.cpp calculator.cpp stringExpression.cpp expressionList.cpp
 TARGET = mathcalc
 
 mathcalc: $(SOURCE)

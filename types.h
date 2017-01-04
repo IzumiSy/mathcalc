@@ -18,26 +18,29 @@ struct SYMBOL {
   SYMBOL::TYPES type;
   std::string character;
 
-  static SYMBOL makeSymbol(std::string character, SYMBOL::TYPES type) {
+  static struct SYMBOL makeSymbol(std::string character, SYMBOL::TYPES type) {
     struct SYMBOL symbol;
     symbol.character = character;
     symbol.type = type;
     return symbol;
-  }
-};
-
-enum EXPRESSION_TYPE {
-  VALUE,
-  SYMBOL
+  };
 };
 
 struct EXPRESSION {
-  EXPRESSION_TYPE type;
-  std::string value;
-};
+  enum TYPES {
+    VALUE,
+    SYMBOL
+  };
 
-struct ExpressionList {
-  std::list<struct EXPRESSION> expressions;
+  EXPRESSION::TYPES type;
+  std::string value;
+
+  static struct EXPRESSION makeExpression(EXPRESSION::TYPES type, std::string value) {
+    struct EXPRESSION expression;
+    expression.type = type;
+    expression.value = value;
+    return expression;
+  };
 };
 
 struct EXP_DIVIDER_RESULT {

@@ -152,6 +152,7 @@ int calcurate(list<string>::iterator begin, list<string>::iterator end)
     return _stoi(*pflags.expressions.begin());
 }
 
+/*
 void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
 {
     string::size_type current, prev, pos_plus, pos_minus, pos_multi, pos_div;
@@ -194,5 +195,6 @@ void build_expressions(string expressions, struct PROGRESSION_FLAGS *pflags)
 
     return;
 }
+*/
 
 #endif

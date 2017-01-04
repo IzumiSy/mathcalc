@@ -4,13 +4,14 @@
 #include <string>
 #include <list>
 #include "types.h"
+#include "expressionList.h"
 
 class Calculator {
   private:
     // struct PROGRESSION_FLAGS pflags;
 
     std::string stringExpressions;
-    struct ExpressionList expressionList;
+    ExpressionList expressionList;
 
   public:
     Calculator(std::string expressions);

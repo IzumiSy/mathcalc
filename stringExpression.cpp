@@ -1,8 +1,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "stringExpression.h"
 #include "types.h"
+#include "stringExpression.h"
+#include "expressionList.h"
 
 void StringExpression::addSymbol(struct SYMBOL symbol) {
   this->symbols.push_back(symbol);
@@ -57,21 +58,13 @@ bool StringExpression::hasNextExpression() {
 }
 
 void StringExpression::parseNumberValue() {
-  struct EXPRESSION expression;
   std::string valuePart =
     this->expressions.substr(this->currentPos, this->nextExpressionPos - this->currentPos);
-
-  expression.type = VALUE;
-  expression.value = valuePart;
-  this->expressionList.expressions.push_back(expression);
+  this->expressionList.add(EXPRESSION::makeExpression(EXPRESSION::VALUE, valuePart));
 }
 
 void StringExpression::parseExpression() {
-  struct EXPRESSION expression;
-  std::string expressionPart = this->expressions.substr(nextExpressionPos, 1);
-
-  expression.type = SYMBOL;
-  expression.value = expressionPart;
-  this->expressionList.expressions.push_back(expression);
+  std::string symbolPart = this->expressions.substr(nextExpressionPos, 1);
+  this->expressionList.add(EXPRESSION::makeExpression(EXPRESSION::SYMBOL, symbolPart));
 }
 

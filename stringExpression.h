@@ -4,10 +4,11 @@
 #include <vector>
 #include <string>
 #include "types.h"
+#include "expressionList.h"
 
 class StringExpression {
   private:
-    struct ExpressionList expressionList;
+    ExpressionList expressionList;
     std::vector<struct SYMBOL> symbols;
     std::string::size_type currentPos;
     std::string::size_type nextExpressionPos;

@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include "calculator.h"
 #include "stringExpression.h"
 
@@ -33,6 +34,8 @@ void Calculator::parseStringExpressions() {
 }
 
 void Calculator::printExpressions() {
+  std::string stringifiedExpression = this->expressionList.getStringified();
+  std::cout << stringifiedExpression << std::endl;
   return;
 }
 
