@@ -7,10 +7,8 @@
 #include <locale>
 using namespace std;
 
-#include "types.h"
-#include "utils.h"
-
 #include "calculator.h"
+#include "types.h"
 
 int main(int argc, char *argv[])
 {
