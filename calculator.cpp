@@ -6,13 +6,8 @@
 #include "calculator.h"
 #include "stringExpression.h"
 
-Calculator::Calculator(std::string expressions) {
-  this->stringExpressions = expressions;
-  return;
-}
-
-void Calculator::parse() {
-  StringExpression stringExpression(this->stringExpressions);
+void Calculator::parse(std::string expressions) {
+  StringExpression stringExpression(expressions);
 
   while (1) {
     stringExpression.begin();

@@ -21,7 +21,7 @@ class StringExpression {
 
   public:
     StringExpression(std::string expressions);
-    struct ExpressionList getExpressionsList();
+    ExpressionList getExpressionsList();
 
     bool hasNextExpression();
     void parseNumberValue();

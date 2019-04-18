@@ -36,7 +36,7 @@ StringExpression::StringExpression(std::string expressions) {
   this->currentPos = 0;
 }
 
-struct ExpressionList StringExpression::getExpressionsList() {
+ExpressionList StringExpression::getExpressionsList() {
   return this->expressionList;
 }
 

@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
     // struct PROGRESSION_FLAGS pflags;
     string expressions = argv[1];
 
-    Calculator calc(expressions);
+    Calculator calc;
     try {
-      calc.parse();
+      calc.parse(expressions);
       calc.validate();
       calc.print();
     } catch (struct Exception e) {

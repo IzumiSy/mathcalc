@@ -10,14 +10,10 @@ class Calculator {
   private:
     // struct PROGRESSION_FLAGS pflags;
 
-    std::string stringExpressions;
     ExpressionList expressionList;
 
   public:
-    Calculator(std::string expressions);
-    ~Calculator();
-
-    void parse();
+    void parse(std::string expressions);
     void print();
     void validate();
     void run();
