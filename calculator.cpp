@@ -11,11 +11,7 @@ Calculator::Calculator(std::string expressions) {
   return;
 }
 
-Calculator::~Calculator() {
-  return;
-}
-
-void Calculator::parseStringExpressions() {
+void Calculator::parse() {
   StringExpression stringExpression(this->stringExpressions);
 
   while (1) {
@@ -34,19 +30,20 @@ void Calculator::parseStringExpressions() {
   return;
 }
 
-void Calculator::printExpressions() {
+void Calculator::print() {
   std::string stringifiedExpression = this->expressionList.getStringified();
   std::cout << stringifiedExpression << std::endl;
   return;
 }
 
-void Calculator::validateExpressions() {
+void Calculator::validate() {
   this->expressionList.validateBracketsParing();
   this->expressionList.validateDuplicatedSymbol();
   this->expressionList.validateLonelySymbol();
   return;
 }
 
-void Calculator::execCalculation() {
+void Calculator::run() {
+  // TODO: あとでつくる
   return;
 }

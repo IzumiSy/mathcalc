@@ -17,10 +17,10 @@ class Calculator {
     Calculator(std::string expressions);
     ~Calculator();
 
-    void parseStringExpressions();
-    void printExpressions();
-    void validateExpressions();
-    void execCalculation();
+    void parse();
+    void print();
+    void validate();
+    void run();
 };
 
 #endif // __CALCULATOR_H__

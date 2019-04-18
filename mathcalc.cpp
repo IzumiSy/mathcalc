@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
 
     Calculator calc(expressions);
     try {
-      calc.parseStringExpressions();
-      calc.validateExpressions();
-      calc.printExpressions();
+      calc.parse();
+      calc.validate();
+      calc.print();
     } catch (struct Exception e) {
       std::cerr << "Error: " << e.msg() << std::endl;
       exit(1);
