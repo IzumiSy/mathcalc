@@ -2,3 +2,4 @@ mathcalc
 core
 /*.dSYM
 /test/*.dSYM
+/test/test
