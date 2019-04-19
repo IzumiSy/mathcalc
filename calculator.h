@@ -3,13 +3,10 @@
 
 #include <string>
 #include <list>
-#include "types.h"
 #include "expressionList.h"
 
 class Calculator {
   private:
-    // struct PROGRESSION_FLAGS pflags;
-
     ExpressionList expressionList;
 
   public:

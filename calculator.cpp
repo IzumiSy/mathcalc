@@ -6,6 +6,7 @@
 #include "calculator.h"
 #include "stringExpression.h"
 
+// Parses string expressions of std::string into ExpressionList
 void Calculator::parse(std::string expressions) {
   StringExpression stringExpression(expressions);
 
@@ -25,12 +26,15 @@ void Calculator::parse(std::string expressions) {
   return;
 }
 
+// Prints stringified ExpressionList into STDOUT
 void Calculator::print() {
   std::string stringifiedExpression = this->expressionList.getStringified();
   std::cout << stringifiedExpression << std::endl;
   return;
 }
 
+// Checks out if this->expressionList has any invalid expression, and throws exceptions. 
+// his method expects to be called after Calculator::parse because this->expressionList is populated by it. 
 void Calculator::validate() {
   this->expressionList.validateBracketsParing();
   this->expressionList.validateDuplicatedSymbol();
@@ -39,6 +43,8 @@ void Calculator::validate() {
 }
 
 void Calculator::run() {
+
+
   // TODO: あとでつくる
   return;
 }

@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "types.h"
+#include "expression.h"
 #include "stringExpression.h"
 #include "expressionList.h"
 
@@ -10,12 +10,12 @@ void StringExpression::addSymbol(struct SYMBOL symbol) {
 }
 
 void StringExpression::defineSymbols() {
-  this->addSymbol(SYMBOL::makeSymbol("+", SYMBOL::PLUS));
-  this->addSymbol(SYMBOL::makeSymbol("-", SYMBOL::MINUS));
-  this->addSymbol(SYMBOL::makeSymbol("*", SYMBOL::MULTIPLY));
-  this->addSymbol(SYMBOL::makeSymbol("/", SYMBOL::DIVIDE));
-  this->addSymbol(SYMBOL::makeSymbol("(", SYMBOL::BRACKET_BEGIN));
-  this->addSymbol(SYMBOL::makeSymbol(")", SYMBOL::BRACKET_END));
+  this->addSymbol(SYMBOL::make("+", SYMBOL::PLUS));
+  this->addSymbol(SYMBOL::make("-", SYMBOL::MINUS));
+  this->addSymbol(SYMBOL::make("*", SYMBOL::MULTIPLY));
+  this->addSymbol(SYMBOL::make("/", SYMBOL::DIVIDE));
+  this->addSymbol(SYMBOL::make("(", SYMBOL::BRACKET_BEGIN));
+  this->addSymbol(SYMBOL::make(")", SYMBOL::BRACKET_END));
 }
 
 std::string::size_type StringExpression::getNextExpressionPos() {
@@ -60,11 +60,11 @@ bool StringExpression::hasNextExpression() {
 void StringExpression::parseNumberValue() {
   std::string valuePart =
     this->expressions.substr(this->currentPos, this->nextExpressionPos - this->currentPos);
-  this->expressionList.add(EXPRESSION::makeExpression(EXPRESSION::VALUE, valuePart));
+  this->expressionList.add(EXPRESSION::make(EXPRESSION::VALUE, valuePart));
 }
 
 void StringExpression::parseExpression() {
   std::string symbolPart = this->expressions.substr(nextExpressionPos, 1);
-  this->expressionList.add(EXPRESSION::makeExpression(EXPRESSION::SYMBOL, symbolPart));
+  this->expressionList.add(EXPRESSION::make(EXPRESSION::SYMBOL, symbolPart));
 }
 

@@ -5,10 +5,10 @@
 #include <string>
 #include <list>
 #include <locale>
+#include "exception.h"
 using namespace std;
 
 #include "calculator.h"
-#include "types.h"
 
 int main(int argc, char *argv[])
 {

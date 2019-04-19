@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "types.h"
+#include "symbol.h"
 #include "expressionList.h"
 
 class StringExpression {

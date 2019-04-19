@@ -1,7 +1,8 @@
 #include <list>
 #include <string>
 #include <algorithm>
-#include "types.h"
+#include "expression.h"
+#include "exception.h"
 #include "expressionList.h"
 
 void ExpressionList::add(struct EXPRESSION expression) {
