@@ -5,11 +5,11 @@ TARGET = mathcalc
 mathcalc: $(SOURCE)
 	g++ $(DBG_OPTS) -o $(TARGET) $(SOURCE)
 
-.PHONY: clean run debug release
+.PHONY: clean run release
 clean:
 	$(shell [ -e $(TARGET) ] && rm $(TARGET))
+	$(shell [ -d $(TARGET).dSYM ] && rm -r $(TARGET).dSYM)
 	$(shell [ -e core ] && rm core)
-	$(shell [ -d mathcalc.dSYM ] && rm -r mathcalc.dSYM)
 	@echo Done
 
 run: $(TARGET)
