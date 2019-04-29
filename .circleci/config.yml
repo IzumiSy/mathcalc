@@ -6,5 +6,6 @@ jobs:
 
     steps:
       - checkout
+      - run: sudo apt -y install build-essential
       - run: cd test && make run
 
