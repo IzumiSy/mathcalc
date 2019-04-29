@@ -19,7 +19,9 @@ class ExpressionList {
     void validateBracketsParing();
     void validateDuplicatedSymbol();
     void validateLonelySymbol();
-    std::string getStringified();
+
+    std::string stringify() const;
+    std::list<struct EXPRESSION> toList() const;
 };
 
 #endif // __EXPRESSION_LIST_H__

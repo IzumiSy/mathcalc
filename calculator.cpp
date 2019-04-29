@@ -28,13 +28,12 @@ void Calculator::parse(std::string expressions) {
 
 // Prints stringified ExpressionList into STDOUT
 void Calculator::print() {
-  std::string stringifiedExpression = this->expressionList.getStringified();
-  std::cout << stringifiedExpression << std::endl;
+  std::cout << this->expressionList.stringify() << std::endl;
   return;
 }
 
-// Checks out if this->expressionList has any invalid expression, and throws exceptions. 
-// his method expects to be called after Calculator::parse because this->expressionList is populated by it. 
+// Checks out if this->expressionList has any invalid expression, and throws exceptions.
+// his method expects to be called after Calculator::parse because this->expressionList is populated by it.
 void Calculator::validate() {
   this->expressionList.validateBracketsParing();
   this->expressionList.validateDuplicatedSymbol();
@@ -43,8 +42,6 @@ void Calculator::validate() {
 }
 
 void Calculator::run() {
-
-
   // TODO: あとでつくる
   return;
 }

@@ -1,9 +1,13 @@
 DBG_OPTS = -O0 -g3 -Wall
-SOURCE = mathcalc.cpp calculator.cpp stringExpression.cpp expressionList.cpp
 TARGET = mathcalc
+SOURCE = mathcalc.cpp \
+	calculator.cpp \
+	stringExpression.cpp \
+	expressionList.cpp \
+	rpn.cpp
 
 mathcalc: $(SOURCE)
-	g++ $(DBG_OPTS) -o $(TARGET) $(SOURCE)
+	g++ $(DBG_OPTS) -std=c++11 -o $(TARGET) $(SOURCE)
 
 .PHONY: clean run release
 clean:
