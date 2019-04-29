@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
       calc.parse(expressions);
       calc.validate();
       calc.print();
+      calc.run();
     } catch (struct Exception e) {
       std::cerr << "Error: " << e.msg() << std::endl;
       exit(1);
