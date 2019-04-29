@@ -1,5 +1,6 @@
 # mathcalc
 > Simple arithmetic calculater for command-line.
+
 [![CircleCI](https://circleci.com/gh/IzumiSy/mathcalc.svg?style=svg)](https://circleci.com/gh/IzumiSy/mathcalc)
 
 ```bash
