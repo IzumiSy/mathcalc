@@ -1,10 +1,10 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: debian:stretch
 
     steps:
       - checkout
-      - cd test && make run
+      - run: cd test && make run
 
