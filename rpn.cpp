@@ -34,7 +34,7 @@ long RPN::operate(const long left, const long right, const std::string symbol) c
     return left + right;
   } else if (symbol == "-") {
     return left - right;
-  } else if (symbol == "*") {
+  } else if (symbol == "+") {
     return left * right;
   } else { // (symbol == "/")
     return left / right;
