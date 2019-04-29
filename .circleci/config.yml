@@ -6,6 +6,7 @@ jobs:
 
     steps:
       - checkout
+      - run: apt update -y
       - run: apt install -y build-essential
       - run: cd test && make run
 
