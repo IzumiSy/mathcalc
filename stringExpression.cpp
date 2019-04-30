@@ -1,0 +1,70 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include "expression.h"
+#include "stringExpression.h"
+#include "expressionList.h"
+
+void StringExpression::addSymbol(struct SYMBOL symbol) {
+  this->symbols.push_back(symbol);
+}
+
+void StringExpression::defineSymbols() {
+  this->addSymbol(SYMBOL::make("+", SYMBOL::PLUS));
+  this->addSymbol(SYMBOL::make("-", SYMBOL::MINUS));
+  this->addSymbol(SYMBOL::make("*", SYMBOL::MULTIPLY));
+  this->addSymbol(SYMBOL::make("/", SYMBOL::DIVIDE));
+  this->addSymbol(SYMBOL::make("(", SYMBOL::BRACKET_BEGIN));
+  this->addSymbol(SYMBOL::make(")", SYMBOL::BRACKET_END));
+}
+
+std::string::size_type StringExpression::getNextExpressionPos() {
+  std::vector<std::string::size_type> expressionPositionsIndex;
+  std::vector<struct SYMBOL>::iterator it = this->symbols.begin();
+  std::vector<struct SYMBOL>::iterator end = this->symbols.end();
+
+  for (; it != end; it++) {
+    expressionPositionsIndex.push_back(this->expressions.find(it->character, this->currentPos));
+  }
+
+  return *std::min_element(expressionPositionsIndex.begin(), expressionPositionsIndex.end());
+}
+
+StringExpression::StringExpression(std::string expressions) {
+  this->defineSymbols();
+  this->expressions = expressions;
+  this->currentPos = 0;
+}
+
+ExpressionList StringExpression::getExpressionsList() {
+  return this->expressionList;
+}
+
+void StringExpression::begin() {
+  this->nextExpressionPos = this->getNextExpressionPos();
+}
+
+void StringExpression::next() {
+  this->currentPos = (nextExpressionPos + 1);
+}
+
+bool StringExpression::hasNextExpression() {
+  this->nextExpressionPos = this->getNextExpressionPos();
+  if (this->nextExpressionPos == std::string::npos) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+void StringExpression::parseNumberValue() {
+  std::string valuePart =
+    this->expressions.substr(this->currentPos, this->nextExpressionPos - this->currentPos);
+  this->expressionList.add(EXPRESSION::make(EXPRESSION::VALUE, valuePart));
+}
+
+void StringExpression::parseExpression() {
+  std::string symbolPart = this->expressions.substr(nextExpressionPos, 1);
+  this->expressionList.add(EXPRESSION::make(EXPRESSION::SYMBOL, symbolPart));
+}
+

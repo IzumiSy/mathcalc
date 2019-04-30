@@ -5,32 +5,31 @@
 #include <string>
 #include <list>
 #include <locale>
+#include "exception.h"
 using namespace std;
 
-#include "types.h"
-#include "utils.h"
-#include "bracket.h"
-#include "calcurate.h"
+#include "calculator.h"
 
 int main(int argc, char *argv[])
 {
-    struct PROGRESSION_FLAGS pflags;
-    string expressions;
-
     if (argc == 1) {
         cout << "usage: mathcalc [expression]" << endl;
-        return 0;
+        exit(1);
     }
 
-    // Build expression array from string given from command-line
-    expressions = argv[1];
-    build_expressions(expressions, &pflags);
+    // struct PROGRESSION_FLAGS pflags;
+    string expressions = argv[1];
 
-    // Clean up bracket-wrapped expressions
-    exec_bracket_processing(&pflags);
-
-    // Last calcuration after cleaning up of brackets
-    cout << calcurate(pflags.expressions.begin(), pflags.expressions.end()) << endl;
+    Calculator calc;
+    try {
+      calc.parse(expressions);
+      calc.validate();
+      calc.print();
+      calc.run();
+    } catch (struct Exception e) {
+      std::cerr << "Error: " << e.msg() << std::endl;
+      exit(1);
+    }
 
     return 0;
 }

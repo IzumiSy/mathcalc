@@ -1,5 +1,8 @@
 # mathcalc
-Simple arithmetic calculater for command-line.
+> Simple arithmetic calculater for command-line.
+
+[![CircleCI](https://circleci.com/gh/IzumiSy/mathcalc.svg?style=svg)](https://circleci.com/gh/IzumiSy/mathcalc)
+
 ```bash
 $ ./mathcalc "1+2+(10*2+(5*2))+10"
 > 1+2+(10*2+(5*2))+10
